@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : Gihan Madhusankha
@@ -20,10 +22,12 @@ import javax.persistence.Id;
 public class Room {
     @Id
     private String roomId;
-    private String type;
 
-    @Column(name = "monthly_rental")
-    private double rental;
-    private int qtyOnHand;
+    private String type;
+    private double keyMoney;
+    private int roomQty;
+
+    @OneToMany(mappedBy = "room")
+    private List<Reservation> reservationList = new ArrayList<>();
 
 }
