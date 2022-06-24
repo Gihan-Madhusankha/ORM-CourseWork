@@ -3,10 +3,9 @@ package entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +22,23 @@ public class Room {
     @Id
     private String roomId;
 
+    @Column(nullable = false)
     private String type;
+
+    @Column(nullable = false)
     private double keyMoney;
+
+    @Column(nullable = false)
     private int roomQty;
 
-    @OneToMany(mappedBy = "room")
+    @ToString.Exclude
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<Reservation> reservationList = new ArrayList<>();
 
+    public Room(String roomId, String type, double keyMoney, int roomQty) {
+        this.roomId = roomId;
+        this.type = type;
+        this.keyMoney = keyMoney;
+        this.roomQty = roomQty;
+    }
 }

@@ -4,11 +4,9 @@ import com.sun.xml.internal.messaging.saaj.packaging.mime.util.LineInputStream;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,19 +22,26 @@ import java.util.List;
 @Data
 public class Student {
     @Id
-    @Column(name = "student_id")
+    @Column(name = "student_id", nullable = false)
     private String id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String address;
+
+    @Column(nullable = false)
     private String contactNo;
 
-    @Column(name = "regDate")
+    @Column(name = "regDate", nullable = false)
     private LocalDate date;
 
+    @Column(nullable = false)
     private String gender;
 
-    @OneToMany(mappedBy = "student")
+    @ToString.Exclude
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Reservation> reservationList = new ArrayList<>();
 
 }

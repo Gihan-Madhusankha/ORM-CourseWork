@@ -34,7 +34,6 @@ public class MainFormController {
         fadeTransition.play();
     }
 
-
     public void playMouseEnterAnimation(MouseEvent event) {
         if (event.getSource() instanceof ImageView) {
             ImageView icon = (ImageView) event.getSource();

@@ -3,6 +3,7 @@ package entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,14 +24,23 @@ public class Reservation {
     @Id
     private String resId;
 
+    @Column(nullable = false)
     private LocalDate date;
+
+    @Column(nullable = false)
     private String studentId;
+
+    @Column(nullable = false)
     private String roomTypeId;
+
+    @Column(nullable = false)
     private String status;
 
+    @ToString.Exclude
     @ManyToOne
     private Student student;
 
+    @ToString.Exclude
     @ManyToOne
     private Room room;
 }
