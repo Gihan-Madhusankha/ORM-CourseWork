@@ -77,6 +77,8 @@ public class ManageStudentFormController {
 
         loadAllStudents();
         btnUpdate.setDisable(true);
+
+
     }
 
     private void clickedEditBtn(ImageView edit) {
@@ -111,7 +113,6 @@ public class ManageStudentFormController {
                 loadAllStudents();
                 new Alert(Alert.AlertType.CONFIRMATION, "Deleted...").show();
             }
-
         });
     }
 
