@@ -16,4 +16,6 @@ public interface StudentBO {
     ArrayList<StudentDTO> getAllStudents();
 
     boolean deleteStudent(String id);
+
+    boolean updateStudent(StudentDTO dto);
 }

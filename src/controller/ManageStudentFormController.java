@@ -9,14 +9,21 @@ import dto.StudentDTO;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -26,6 +33,7 @@ import java.util.Optional;
  **/
 
 public class ManageStudentFormController {
+    private final StudentBO studentBO = new StudentBOImpl();
     public AnchorPane studentContext;
     public JFXTextField txtStudentId;
     public JFXTextField txtName;
@@ -44,7 +52,6 @@ public class ManageStudentFormController {
     public TableView<StudentDTO> tblManageStudent;
     private ObservableList<StudentDTO> obList = null;
     private StudentDTO studentDTO = null;
-    private final StudentBO studentBO = new StudentBOImpl();
 
     public void initialize() {
         colStudentId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -77,11 +84,44 @@ public class ManageStudentFormController {
 
         loadAllStudents();
         btnUpdate.setDisable(true);
-
+        filteredList();
 
     }
 
+    private void filteredList() {
+        FilteredList<StudentDTO> filteredList = new FilteredList<>(obList, b -> true);
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(searchModel -> {
+
+                if (newValue.isEmpty() || newValue == null) {
+                    return true;
+                }
+
+                String searchKeyword = newValue.toLowerCase();
+                if (searchModel.getId().toLowerCase().indexOf(searchKeyword) > -1) {
+                    return true;
+                } else if (searchModel.getName().toLowerCase().indexOf(searchKeyword) > -1) {
+                    return true;
+                } else if (searchModel.getAddress().toLowerCase().indexOf(searchKeyword) > -1) {
+                    return true;
+                } else if (searchModel.getGender().toLowerCase().indexOf(searchKeyword) > -1) {
+                    return true;
+                }
+                return searchModel.getContactNo().toLowerCase().indexOf(searchKeyword) > -1;
+
+            });
+        });
+
+        SortedList<StudentDTO> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(tblManageStudent.comparatorProperty());
+        tblManageStudent.setItems(sortedList);
+    }
+
     private void clickedEditBtn(ImageView edit) {
+        ObservableList<String> gender = FXCollections.observableArrayList();
+        gender.add("Male");
+        gender.add("Female");
+        cmbGender.setItems(gender);
         edit.setOnMouseClicked(event -> {
             studentDTO = tblManageStudent.getSelectionModel().getSelectedItem();
             txtStudentId.setText(studentDTO.getId());
@@ -90,10 +130,7 @@ public class ManageStudentFormController {
             txtContactNo.setText(studentDTO.getContactNo());
             cmbGender.setValue(studentDTO.getGender());
             btnUpdate.setDisable(false);
-            ObservableList<String> gender = FXCollections.observableArrayList();
-            gender.add("Male");
-            gender.add("Female");
-            cmbGender.setItems(gender);
+            txtStudentId.setEditable(false);
         });
     }
 
@@ -126,17 +163,30 @@ public class ManageStudentFormController {
     }
 
     private void loadAllStudents() {
-        StudentBO studentBO = new StudentBOImpl();
         ArrayList<StudentDTO> allStudents = studentBO.getAllStudents();
         obList = FXCollections.observableArrayList(allStudents);
         tblManageStudent.setItems(obList);
     }
 
-    public void backBtnOnAction(ActionEvent actionEvent) {
-
+    public void backBtnOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) studentContext.getScene().getWindow();
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/MainForm.fxml"))));
+        stage.show();
     }
 
     public void updateBtnOnAction(ActionEvent actionEvent) {
+        /*update student*/
+        boolean b = studentBO.updateStudent(new StudentDTO(txtStudentId.getText(), txtName.getText(), txtAddress.getText(), txtContactNo.getText(),
+                LocalDate.now(), cmbGender.getValue()));
+        if (b) {
+            obList.clear();
+            loadAllStudents();
+            clearForm();
+            filteredList();
+            new Alert(Alert.AlertType.CONFIRMATION, "Updated..").show();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Something else").show();
+        }
     }
 
 }

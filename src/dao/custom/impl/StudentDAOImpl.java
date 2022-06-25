@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import util.FactoryConfiguration;
 
 import java.io.Serializable;
@@ -58,7 +59,23 @@ public class StudentDAOImpl implements StudentDAO {
 
     @Override
     public boolean update(Student entity) {
-        return false;
+        Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
+        Transaction transaction = session.beginTransaction();
+
+        String id = entity.getId();
+        String hql = "UPDATE Student SET name = :stName, address = :stAddress, contactNo = :stContactNo, date = :stDate, gender = :stGender WHERE id = :stId";
+        Query query = session.createQuery(hql);
+        query.setParameter("stName", entity.getName());
+        query.setParameter("stAddress", entity.getAddress());
+        query.setParameter("stContactNo", entity.getContactNo());
+        query.setParameter("stDate", entity.getDate());
+        query.setParameter("stGender", entity.getGender());
+        query.setParameter("stId", entity.getId());
+        boolean b = query.executeUpdate() > 0;
+
+        transaction.commit();
+        session.close();
+        return b;
     }
 
     @Override
