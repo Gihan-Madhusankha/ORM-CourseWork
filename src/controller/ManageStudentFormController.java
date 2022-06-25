@@ -69,13 +69,25 @@ public class ManageStudentFormController {
             HBox.setMargin(edit, new Insets(2,3,2,2));
             HBox.setMargin(delete, new Insets(2,2,2,3));
 
-//            clickedEditBtn(edit);
+            clickedEditBtn(edit);
 //            deleteStudent(delete);
             return new ReadOnlyObjectWrapper<>(hBox);
         });
 
         loadAllStudents();
         btnUpdate.setDisable(true);
+    }
+
+    private void clickedEditBtn(ImageView edit) {
+        edit.setOnMouseClicked(event -> {
+            studentDTO = tblManageStudent.getSelectionModel().getSelectedItem();
+            txtStudentId.setText(studentDTO.getId());
+            txtName.setText(studentDTO.getName());
+            txtAddress.setText(studentDTO.getAddress());
+            txtContactNo.setText(studentDTO.getContactNo());
+            cmbGender.setValue(studentDTO.getGender());
+            btnUpdate.setDisable(false);
+        });
     }
 
     private void loadAllStudents() {
