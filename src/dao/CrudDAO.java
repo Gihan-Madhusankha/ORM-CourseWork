@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * 2022-06-22 10:41 AM
  **/
 
-public interface CrudDAO<T, ID> {
+public interface CrudDAO<T, ID> extends SuperDAO {
     ArrayList<T> getAll();
 
     boolean save(T entity);

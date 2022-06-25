@@ -2,13 +2,18 @@ package controller;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -89,6 +94,31 @@ public class MainFormController {
     private void exitScaleLabel(ArrayList<Label> lblList) {
         for (Label label : lblList) {
             label.setTextFill(Color.rgb(45, 52, 54));
+        }
+    }
+
+    public void playMouseClickedAnimation(MouseEvent event) throws IOException {
+        if (event.getSource() instanceof ImageView) {
+            ImageView icon = (ImageView) event.getSource();
+
+            switch (icon.getId()) {
+                case "imgAvailable":
+                    Stage stage = (Stage) mainContext.getScene().getWindow();
+                    stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/AvailableRoomForm.fxml"))));
+                    stage.show();
+                    break;
+                case "imgRegistration":
+
+//                    break;
+//                case "imgManageStudents":
+//
+//                    break;
+//                case "imgManageRooms":
+//
+//                    break;
+//                case "imgBooking":
+
+            }
         }
     }
 }

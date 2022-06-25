@@ -3,6 +3,7 @@ package dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author : Gihan Madhusankha
@@ -17,4 +18,6 @@ public class RoomDTO {
     private String type;
     private double keyMoney;
     private int roomQty;
+
+
 }
