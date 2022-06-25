@@ -101,14 +101,15 @@ public class MainFormController {
         if (event.getSource() instanceof ImageView) {
             ImageView icon = (ImageView) event.getSource();
 
+            Stage stage = (Stage) mainContext.getScene().getWindow();
             switch (icon.getId()) {
                 case "imgAvailable":
-                    Stage stage = (Stage) mainContext.getScene().getWindow();
                     stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/AvailableRoomForm.fxml"))));
                     stage.show();
                     break;
                 case "imgRegistration":
-
+                    stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/RegistrationFrom.fxml"))));
+                    stage.show();
 //                    break;
 //                case "imgManageStudents":
 //

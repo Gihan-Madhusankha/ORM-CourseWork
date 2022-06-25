@@ -50,7 +50,6 @@ public class AvailableRoomFormController {
         tblAvailable.setItems(obList);
 
         FilteredList<RoomDTO> filteredList = new FilteredList<>(obList, b -> true);
-        System.out.println("Error");
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredList.setPredicate(searchModel -> {
 

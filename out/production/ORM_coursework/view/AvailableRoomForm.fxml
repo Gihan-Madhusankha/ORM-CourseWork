@@ -17,7 +17,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Separator layoutX="23.0" layoutY="52.0" prefHeight="0.0" prefWidth="549.0" />
+      <Separator layoutX="23.0" layoutY="49.0" prefHeight="0.0" prefWidth="549.0" />
       <TableView fx:id="tblAvailable" layoutX="23.0" layoutY="116.0" prefHeight="257.0" prefWidth="549.0">
         <columns>
           <TableColumn fx:id="colRoomTypeId" prefWidth="144.0" text="Room Type ID" />
@@ -26,7 +26,7 @@
             <TableColumn fx:id="colRoomQty" prefWidth="132.0" text="Room QTY" />
         </columns>
       </TableView>
-      <JFXButton buttonType="RAISED" layoutX="503.0" layoutY="22.0" onAction="#backBtnOnAction" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: gray;" text="Back" textFill="#fff6f6">
+      <JFXButton buttonType="RAISED" layoutX="503.0" layoutY="13.0" onAction="#backBtnOnAction" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #4b4b4b;" text="Back" textFill="#fff6f6">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
