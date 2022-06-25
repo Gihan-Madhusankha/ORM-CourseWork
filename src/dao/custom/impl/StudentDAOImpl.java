@@ -18,10 +18,10 @@ import java.util.List;
  **/
 
 public class StudentDAOImpl implements StudentDAO {
-    Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
 
     @Override
     public ArrayList<Student> getAll() {
+        Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
 
         String hql = "FROM Student";
@@ -48,6 +48,7 @@ public class StudentDAOImpl implements StudentDAO {
         student.setGender(entity.getGender());
         student.setDate(entity.getDate());
 
+        Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
         session.save(student);
         transaction.commit();
@@ -62,7 +63,13 @@ public class StudentDAOImpl implements StudentDAO {
 
     @Override
     public boolean delete(String s) {
-        return false;
+        Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
+        Transaction transaction = session.beginTransaction();
+        Student del = session.load(Student.class, s);
+        session.delete(del);
+        transaction.commit();
+        session.close();
+        return true;
     }
 
     @Override

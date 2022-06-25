@@ -13,7 +13,6 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -43,7 +42,9 @@ public class ManageStudentFormController {
     public TableColumn colOperate;
     public TextField searchTextField;
     public TableView<StudentDTO> tblManageStudent;
+    private ObservableList<StudentDTO> obList = null;
     private StudentDTO studentDTO = null;
+    private final StudentBO studentBO = new StudentBOImpl();
 
     public void initialize() {
         colStudentId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -66,11 +67,11 @@ public class ManageStudentFormController {
             delete.setStyle("-fx-cursor: Hand");
 
             hBox.setStyle("-fx-alignment: center");
-            HBox.setMargin(edit, new Insets(2,3,2,2));
-            HBox.setMargin(delete, new Insets(2,2,2,3));
+            HBox.setMargin(edit, new Insets(2, 3, 2, 2));
+            HBox.setMargin(delete, new Insets(2, 2, 2, 3));
 
             clickedEditBtn(edit);
-//            deleteStudent(delete);
+            deleteStudent(delete);
             return new ReadOnlyObjectWrapper<>(hBox);
         });
 
@@ -87,13 +88,46 @@ public class ManageStudentFormController {
             txtContactNo.setText(studentDTO.getContactNo());
             cmbGender.setValue(studentDTO.getGender());
             btnUpdate.setDisable(false);
+            ObservableList<String> gender = FXCollections.observableArrayList();
+            gender.add("Male");
+            gender.add("Female");
+            cmbGender.setItems(gender);
         });
+    }
+
+    private void deleteStudent(ImageView delete) {
+        /*delete student*/
+        delete.setOnMouseClicked(event -> {
+            studentDTO = tblManageStudent.getSelectionModel().getSelectedItem();
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are You Sure ?",
+                    ButtonType.NO, ButtonType.YES);
+            Optional<ButtonType> buttonType = alert.showAndWait();
+
+            if (buttonType.get().equals(ButtonType.YES)) {
+                studentBO.deleteStudent(studentDTO.getId());
+                clearForm();
+                obList.clear();
+                loadAllStudents();
+                new Alert(Alert.AlertType.CONFIRMATION, "Deleted...").show();
+            }
+
+        });
+    }
+
+    private void clearForm() {
+        txtStudentId.clear();
+        txtName.clear();
+        txtAddress.clear();
+        txtContactNo.clear();
+        cmbGender.getSelectionModel().clearSelection();
+        btnUpdate.setDisable(true);
     }
 
     private void loadAllStudents() {
         StudentBO studentBO = new StudentBOImpl();
         ArrayList<StudentDTO> allStudents = studentBO.getAllStudents();
-        ObservableList<StudentDTO> obList = FXCollections.observableArrayList(allStudents);
+        obList = FXCollections.observableArrayList(allStudents);
         tblManageStudent.setItems(obList);
     }
 

@@ -34,4 +34,9 @@ public class StudentBOImpl implements StudentBO {
         }
         return allStudents;
     }
+
+    @Override
+    public boolean deleteStudent(String id) {
+        return studentDAO.delete(id);
+    }
 }

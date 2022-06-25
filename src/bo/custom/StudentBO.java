@@ -14,4 +14,6 @@ public interface StudentBO {
     boolean saveStudent(StudentDTO dto);
 
     ArrayList<StudentDTO> getAllStudents();
+
+    boolean deleteStudent(String id);
 }
