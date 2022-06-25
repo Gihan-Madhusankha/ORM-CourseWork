@@ -66,8 +66,9 @@ public class RegistrationFromController {
     }
 
     public void registerBtnOnAction(ActionEvent actionEvent) {
-        boolean b = txtId != null && txtName.getText() != null && txtAddress.getText() != null && !txtAddress.getText().equals(" ") && txtContactNo.getText() != null
-                && cmbGender.getValue() != null && txtRegDate.getText() != null;
+        boolean b = (txtId.getText() != null) && (txtName.getText() != null) && (txtAddress.getText() != null) && (!txtAddress.getText().equals(" ")) && (txtContactNo.getText() != null)
+                && (cmbGender.getValue() != null) && (txtRegDate.getText() != null);
+
         if (!b) {
             new Alert(Alert.AlertType.WARNING, "Some values are empty..!").show();
             return;
@@ -88,6 +89,13 @@ public class RegistrationFromController {
     }
 
     public void clearFormButtonOnAction(ActionEvent actionEvent) {
+        txtId.clear();
+        txtName.clear();
+        txtAddress.clear();
+        txtContactNo.clear();
+        txtRegDate.clear();
+        cmbGender.getSelectionModel().clearSelection();
+        ValidateUtil.setBorders(txtId, txtName, txtAddress, txtContactNo);
     }
 
     public void textFieldKeyReleased(KeyEvent keyEvent) {

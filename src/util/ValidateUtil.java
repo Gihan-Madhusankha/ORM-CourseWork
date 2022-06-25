@@ -33,9 +33,15 @@ public class ValidateUtil {
     }
 
     private static void addError(TextField textField, JFXButton btnReg) {
-        if (textField.getText().length()>0) {
+        if (textField.getText().length() > 0) {
             textField.getParent().setStyle("-fx-border-color: RED");
         }
         btnReg.setDisable(true);
+    }
+
+    public static void setBorders(TextField... textFields) {
+        for (TextField textField : textFields) {
+            textField.getParent().setStyle("-fx-border-color: rgba(76, 73, 73, 0.83)");
+        }
     }
 }
