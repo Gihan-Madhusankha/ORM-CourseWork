@@ -81,20 +81,24 @@ public class RegistrationFromController {
 
         if (saveStudent) {
             new Alert(Alert.AlertType.CONFIRMATION, "Registration successfully.").show();
+            clearForm();
         } else {
             new Alert(Alert.AlertType.ERROR, "Something went wrong..!!").show();
         }
 
-
     }
 
     public void clearFormButtonOnAction(ActionEvent actionEvent) {
+        clearForm();
+    }
+
+    private void clearForm() {
         txtId.clear();
         txtName.clear();
         txtAddress.clear();
         txtContactNo.clear();
-        txtRegDate.clear();
         cmbGender.getSelectionModel().clearSelection();
+        btnReg.setDisable(true);
         ValidateUtil.setBorders(txtId, txtName, txtAddress, txtContactNo);
     }
 

@@ -110,10 +110,10 @@ public class MainFormController {
                 case "imgRegistration":
                     stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/RegistrationFrom.fxml"))));
                     stage.show();
-//                    break;
-//                case "imgManageStudents":
-//
-//                    break;
+                    break;
+                case "imgManageStudents":
+                    stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/ManageStudentForm.fxml"))));
+                    break;
 //                case "imgManageRooms":
 //
 //                    break;

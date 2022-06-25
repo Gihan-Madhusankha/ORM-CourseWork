@@ -2,11 +2,15 @@ package dao.custom.impl;
 
 import dao.custom.StudentDAO;
 import entity.Student;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.FactoryConfiguration;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : Gihan Madhusankha
@@ -14,9 +18,24 @@ import java.util.ArrayList;
  **/
 
 public class StudentDAOImpl implements StudentDAO {
+    Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
+
     @Override
     public ArrayList<Student> getAll() {
-        return null;
+        Transaction transaction = session.beginTransaction();
+
+        String hql = "FROM Student";
+        List<Student> list = session.createQuery(hql).list();
+        ArrayList<Student> allStudents = new ArrayList<>();
+        for (Student student : list) {
+            allStudents.add(new Student(
+                    student.getId(), student.getName(), student.getAddress(), student.getContactNo(),
+                    student.getDate(), student.getGender()
+            ));
+        }
+        transaction.commit();
+        session.close();
+        return allStudents;
     }
 
     @Override
@@ -29,7 +48,6 @@ public class StudentDAOImpl implements StudentDAO {
         student.setGender(entity.getGender());
         student.setDate(entity.getDate());
 
-        Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
         session.save(student);
         transaction.commit();

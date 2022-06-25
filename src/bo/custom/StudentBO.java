@@ -1,6 +1,9 @@
 package bo.custom;
 
 import dto.StudentDTO;
+import entity.Student;
+
+import java.util.ArrayList;
 
 /**
  * @author : Gihan Madhusankha
@@ -9,4 +12,6 @@ import dto.StudentDTO;
 
 public interface StudentBO {
     boolean saveStudent(StudentDTO dto);
+
+    ArrayList<StudentDTO> getAllStudents();
 }
