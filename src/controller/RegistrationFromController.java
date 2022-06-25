@@ -1,17 +1,25 @@
 package controller;
 
+import bo.custom.StudentBO;
+import bo.custom.impl.StudentBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import dto.StudentDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import util.ValidateUtil;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.regex.Pattern;
@@ -58,6 +66,25 @@ public class RegistrationFromController {
     }
 
     public void registerBtnOnAction(ActionEvent actionEvent) {
+        boolean b = txtId != null && txtName.getText() != null && txtAddress.getText() != null && !txtAddress.getText().equals(" ") && txtContactNo.getText() != null
+                && cmbGender.getValue() != null && txtRegDate.getText() != null;
+        if (!b) {
+            new Alert(Alert.AlertType.WARNING, "Some values are empty..!").show();
+            return;
+        }
+
+        /*save student*/
+        StudentBO studentBO = new StudentBOImpl();
+        boolean saveStudent = studentBO.saveStudent(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(),
+                txtContactNo.getText(), LocalDate.now(), cmbGender.getValue()));
+
+        if (saveStudent) {
+            new Alert(Alert.AlertType.CONFIRMATION, "Registration successfully.").show();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Something went wrong..!!").show();
+        }
+
+
     }
 
     public void clearFormButtonOnAction(ActionEvent actionEvent) {
@@ -67,6 +94,9 @@ public class RegistrationFromController {
         ValidateUtil.validate(map, btnReg);
     }
 
-    public void backBtnOnAction(ActionEvent actionEvent) {
+    public void backBtnOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) regContext.getScene().getWindow();
+        stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/MainForm.fxml"))));
+        stage.show();
     }
 }
