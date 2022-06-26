@@ -20,7 +20,7 @@ import java.util.List;
 @Data
 public class Room {
     @Id
-    private String roomId;
+    private String roomTypeId;
 
     @Column(nullable = false)
     private String type;
@@ -35,8 +35,8 @@ public class Room {
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<Reservation> reservationList = new ArrayList<>();
 
-    public Room(String roomId, String type, double keyMoney, int roomQty) {
-        this.roomId = roomId;
+    public Room(String roomTypeId, String type, double keyMoney, int roomQty) {
+        this.roomTypeId = roomTypeId;
         this.type = type;
         this.keyMoney = keyMoney;
         this.roomQty = roomQty;

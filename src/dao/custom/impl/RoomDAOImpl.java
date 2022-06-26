@@ -25,7 +25,7 @@ public class RoomDAOImpl implements RoomDAO {
         ArrayList<Room> roomList = new ArrayList<>();
         for (Room room : list) {
             roomList.add(new Room(
-                    room.getRoomId(), room.getType(), room.getKeyMoney(), room.getRoomQty()
+                    room.getRoomTypeId(), room.getType(), room.getKeyMoney(), room.getRoomQty()
             ));
         }
         transaction.commit();
@@ -36,7 +36,18 @@ public class RoomDAOImpl implements RoomDAO {
 
     @Override
     public boolean save(Room entity) {
-        return false;
+        Room room = new Room();
+        room.setRoomTypeId(entity.getRoomTypeId());
+        room.setType(entity.getType());
+        room.setKeyMoney(entity.getKeyMoney());
+        room.setRoomQty(entity.getRoomQty());
+
+        Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
+        Transaction transaction = session.beginTransaction();
+        session.save(room);
+        transaction.commit();
+        session.close();
+        return true;
     }
 
     @Override

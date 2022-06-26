@@ -35,7 +35,7 @@ public class AvailableRoomFormController {
     public TextField searchTextField;
 
     public void initialize() {
-        colRoomTypeId.setCellValueFactory(new PropertyValueFactory<>("RoomId"));
+        colRoomTypeId.setCellValueFactory(new PropertyValueFactory<>("roomTypeId"));
         colRoomType.setCellValueFactory(new PropertyValueFactory<>("type"));
         colKeyMoney.setCellValueFactory(new PropertyValueFactory<>("keyMoney"));
         colRoomQty.setCellValueFactory(new PropertyValueFactory<>("roomQty"));
@@ -58,7 +58,7 @@ public class AvailableRoomFormController {
                 }
 
                 String searchKeyword = newValue.toLowerCase();
-                if (searchModel.getRoomId().toLowerCase().indexOf(searchKeyword) > -1) {
+                if (searchModel.getRoomTypeId().toLowerCase().indexOf(searchKeyword) > -1) {
                     return true;
                 } else return (searchModel.getType().toLowerCase().indexOf(searchKeyword) > -1);
 

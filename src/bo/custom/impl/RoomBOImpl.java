@@ -22,9 +22,14 @@ public class RoomBOImpl implements RoomBO {
         ArrayList<RoomDTO> roomDTOList = new ArrayList<>();
         for (Room room : all) {
             roomDTOList.add(new RoomDTO(
-                    room.getRoomId(), room.getType(), room.getKeyMoney(), room.getRoomQty()
+                    room.getRoomTypeId(), room.getType(), room.getKeyMoney(), room.getRoomQty()
             ));
         }
         return roomDTOList;
+    }
+
+    @Override
+    public boolean saveRoom(RoomDTO dto) {
+        return roomDAO.save(new Room(dto.getRoomTypeId(), dto.getType(), dto.getKeyMoney(), dto.getRoomQty()));
     }
 }

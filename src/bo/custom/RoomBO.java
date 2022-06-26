@@ -11,4 +11,6 @@ import java.util.ArrayList;
 
 public interface RoomBO {
     ArrayList<RoomDTO> getAllRooms();
+
+    boolean saveRoom(RoomDTO dto);
 }

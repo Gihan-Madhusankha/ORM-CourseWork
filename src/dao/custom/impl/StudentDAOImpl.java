@@ -62,7 +62,6 @@ public class StudentDAOImpl implements StudentDAO {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
 
-        String id = entity.getId();
         String hql = "UPDATE Student SET name = :stName, address = :stAddress, contactNo = :stContactNo, date = :stDate, gender = :stGender WHERE id = :stId";
         Query query = session.createQuery(hql);
         query.setParameter("stName", entity.getName());

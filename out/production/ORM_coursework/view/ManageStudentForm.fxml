@@ -31,11 +31,11 @@
         <columns>
           <TableColumn fx:id="colStudentId" prefWidth="86.0" text="Student ID" />
           <TableColumn fx:id="colName" text="Name" />
-            <TableColumn fx:id="colAddress" prefWidth="83.0" text="Address" />
-            <TableColumn fx:id="colTelNo" prefWidth="104.0" text="Tel.No" />
-            <TableColumn fx:id="colGender" prefWidth="57.0" text="Gender" />
-            <TableColumn fx:id="colRegDate" prefWidth="72.0" text="Reg.Date" />
-            <TableColumn fx:id="colOperate" prefWidth="66.0" text="Operate" />
+            <TableColumn fx:id="colAddress" prefWidth="93.0" text="Address" />
+            <TableColumn fx:id="colTelNo" prefWidth="83.0" text="Tel.No" />
+            <TableColumn fx:id="colGender" prefWidth="60.0" text="Gender" />
+            <TableColumn fx:id="colRegDate" prefWidth="81.0" text="Reg.Date" />
+            <TableColumn fx:id="colOperate" prefWidth="65.0" text="Operate" />
         </columns>
       </TableView>
       <JFXTextField fx:id="txtName" labelFloat="true" layoutX="221.0" layoutY="63.0" prefHeight="30.0" prefWidth="156.0" promptText="Name" />

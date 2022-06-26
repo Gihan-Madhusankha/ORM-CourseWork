@@ -189,4 +189,6 @@ public class ManageStudentFormController {
         }
     }
 
+    public void addNewBtnOnAction(ActionEvent actionEvent) {
+    }
 }

@@ -10,7 +10,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -114,12 +113,13 @@ public class MainFormController {
                 case "imgManageStudents":
                     stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/ManageStudentForm.fxml"))));
                     break;
-//                case "imgManageRooms":
-//
-//                    break;
+                case "imgManageRooms":
+                    stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/ManageRoomForm.fxml"))));
+                    break;
 //                case "imgBooking":
 
             }
         }
     }
+
 }
