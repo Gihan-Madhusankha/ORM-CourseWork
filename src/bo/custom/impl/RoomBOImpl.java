@@ -32,4 +32,14 @@ public class RoomBOImpl implements RoomBO {
     public boolean saveRoom(RoomDTO dto) {
         return roomDAO.save(new Room(dto.getRoomTypeId(), dto.getType(), dto.getKeyMoney(), dto.getRoomQty()));
     }
+
+    @Override
+    public boolean updateRoom(RoomDTO dto) {
+        return roomDAO.update(new Room(dto.getRoomTypeId(), dto.getType(), dto.getKeyMoney(), dto.getRoomQty()));
+    }
+
+    @Override
+    public boolean deleteRoom(String id) {
+        return roomDAO.delete(id);
+    }
 }

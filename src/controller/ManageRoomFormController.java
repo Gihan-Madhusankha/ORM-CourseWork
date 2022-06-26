@@ -3,9 +3,7 @@ package controller;
 import bo.custom.RoomBO;
 import bo.custom.impl.RoomBOImpl;
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextField;
 import dto.RoomDTO;
-import entity.Room;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,10 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -28,6 +23,7 @@ import util.ValidateUtil;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
@@ -36,6 +32,7 @@ import java.util.regex.Pattern;
  **/
 
 public class ManageRoomFormController {
+    private final RoomBO roomBO = new RoomBOImpl();
     public AnchorPane roomContext;
     public TextField txtRoomTypeId;
     public TextField txtRoomType;
@@ -47,14 +44,13 @@ public class ManageRoomFormController {
     public TableColumn colKeyMoney;
     public TableColumn colRoomQty;
     public TableColumn colOperate;
-    private final RoomBO roomBO = new RoomBOImpl();
     public JFXButton btnAddNew;
     public TextField searchTextField;
     private ObservableList<RoomDTO> obList = null;
-    private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap<>();
+    private final LinkedHashMap<TextField, Pattern> map = new LinkedHashMap<>();
     private RoomDTO roomDTO = null;
 
-    public void initialize(){
+    public void initialize() {
         colRoomTypeId.setCellValueFactory(new PropertyValueFactory<>("roomTypeId"));
         colType.setCellValueFactory(new PropertyValueFactory<>("type"));
         colKeyMoney.setCellValueFactory(new PropertyValueFactory<>("keyMoney"));
@@ -77,7 +73,7 @@ public class ManageRoomFormController {
             HBox.setMargin(delete, new Insets(2, 2, 2, 3));
 
             clickedEditBtn(edit);
-//            deleteStudent(delete);
+            deleteStudent(delete);
             return new ReadOnlyObjectWrapper<>(hBox);
 
         });
@@ -96,6 +92,24 @@ public class ManageRoomFormController {
         map.put(txtRoomQty, roomQtyPattern);
     }
 
+    private void deleteStudent(ImageView delete) {
+        delete.setOnMouseClicked(event -> {
+            roomDTO = tblManageRoom.getSelectionModel().getSelectedItem();
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are You Sure ?",
+                    ButtonType.NO, ButtonType.YES);
+            Optional<ButtonType> buttonType = alert.showAndWait();
+
+            if (buttonType.get().equals(ButtonType.YES)) {
+                roomBO.deleteRoom(roomDTO.getRoomTypeId());
+                clearForm();
+                obList.clear();
+                loadAllRoomList();
+                new Alert(Alert.AlertType.CONFIRMATION, "Deleted...").show();
+            }
+        });
+    }
+
     private void clickedEditBtn(ImageView edit) {
         edit.setOnMouseClicked(event -> {
             roomDTO = tblManageRoom.getSelectionModel().getSelectedItem();
@@ -103,6 +117,7 @@ public class ManageRoomFormController {
             txtRoomType.setText(roomDTO.getType());
             txtKeyMoney.setText(String.valueOf(roomDTO.getKeyMoney()));
             txtRoomQty.setText(String.valueOf(roomDTO.getRoomQty()));
+            btnAddNew.setDisable(false);
             btnAddNew.setText("UPDATE");
         });
     }
@@ -119,9 +134,9 @@ public class ManageRoomFormController {
         stage.show();
     }
 
-    public void addNewBtnOnAction(ActionEvent actionEvent) {
+    public void addBtnOnAction(ActionEvent actionEvent) {
         /*save room*/
-        btnAddNew.getText().equals("ADD"){
+        if (btnAddNew.getText().equals("ADD")) {
             boolean b = roomBO.saveRoom(new RoomDTO(
                     txtRoomTypeId.getText(), txtRoomType.getText(), Double.parseDouble(txtKeyMoney.getText()), Integer.parseInt(txtRoomQty.getText())
             ));
@@ -135,6 +150,22 @@ public class ManageRoomFormController {
             }
 
             /*update room*/
+        } else {
+            boolean b = roomBO.updateRoom(new RoomDTO(
+                    txtRoomTypeId.getText(), txtRoomType.getText(), Double.parseDouble(txtKeyMoney.getText()), Integer.parseInt(txtRoomQty.getText())
+            ));
+
+            if (b) {
+                clearForm();
+                obList.clear();
+                loadAllRoomList();
+                ValidateUtil.setBorders(txtRoomTypeId, txtRoomType, txtKeyMoney, txtRoomQty);
+                new Alert(Alert.AlertType.CONFIRMATION, "Updated").show();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Something went wrong...!").show();
+            }
+
+
         }
     }
 
@@ -144,9 +175,11 @@ public class ManageRoomFormController {
         txtKeyMoney.clear();
         txtRoomQty.clear();
         btnAddNew.setDisable(true);
+        btnAddNew.setText("ADD");
     }
 
     public void textFieldKeyReleased(KeyEvent keyEvent) {
         ValidateUtil.validate(map, btnAddNew);
     }
+
 }

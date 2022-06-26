@@ -13,4 +13,8 @@ public interface RoomBO {
     ArrayList<RoomDTO> getAllRooms();
 
     boolean saveRoom(RoomDTO dto);
+
+    boolean updateRoom(RoomDTO dto);
+
+    boolean deleteRoom(String id);
 }

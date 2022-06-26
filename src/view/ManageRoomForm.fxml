@@ -32,10 +32,13 @@
             <TableColumn fx:id="colOperate" prefWidth="111.0" text="Operate" />
         </columns>
       </TableView>
-      <JFXButton fx:id="btnAddNew" buttonType="RAISED" layoutX="417.0" layoutY="115.0" onAction="#addNewBtnOnAction" prefHeight="35.0" prefWidth="155.0" style="-fx-background-color: #1e90ff;" text="ADD" textFill="WHITE">
+      <JFXButton fx:id="btnAddNew" buttonType="RAISED" layoutX="417.0" layoutY="115.0" onAction="#addBtnOnAction" prefHeight="35.0" prefWidth="155.0" style="-fx-background-color: #1e90ff;" text="ADD" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
       <AnchorPane layoutX="25.0" layoutY="169.0" prefHeight="30.0" prefWidth="549.0" style="-fx-border-radius: 3;" styleClass="textPane" stylesheets="@asserts/style/CustomerForm.css">
          <children>
