@@ -8,4 +8,5 @@ import dao.SuperDAO;
  **/
 
 public interface QueryDAO extends SuperDAO {
+    String generateRoomNo(String roomTypeId, String roomType);
 }

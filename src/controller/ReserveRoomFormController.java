@@ -1,7 +1,9 @@
 package controller;
 
+import bo.custom.ReservationBO;
 import bo.custom.RoomBO;
 import bo.custom.StudentBO;
+import bo.custom.impl.ReservationBOImpl;
 import bo.custom.impl.RoomBOImpl;
 import bo.custom.impl.StudentBOImpl;
 import com.jfoenix.controls.JFXButton;
@@ -23,7 +25,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author : Gihan Madhusankha
@@ -31,6 +32,9 @@ import java.util.List;
  **/
 
 public class ReserveRoomFormController {
+    private final RoomBO roomBO = new RoomBOImpl();
+    private final StudentBO studentBO = new StudentBOImpl();
+    private final ReservationBO reservationBO = new ReservationBOImpl();
     public AnchorPane bookingContext;
     public JFXComboBox<String> cmbRoomTypeId;
     public JFXComboBox<String> cmbStudentId;
@@ -42,22 +46,28 @@ public class ReserveRoomFormController {
     public TextField txtKeyMoney;
     public TextField txtAddress;
     public JFXButton btnBook;
-    private final RoomBO roomBO = new RoomBOImpl();
-    private final StudentBO studentBO = new StudentBOImpl();
 
     public void initialize() {
         loadAllStudentIds();
         loadAllRoomTypeIds();
         txtDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        txtName.setEditable(false);
+        txtAddress.setEditable(false);
+        txtRoomType.setEditable(false);
+        txtKeyMoney.setEditable(false);
+        txtDate.setEditable(false);
+        cmbStudentId.setEditable(false);
+        cmbRoomTypeId.setEditable(false);
+        btnBook.setDisable(true);
 
         cmbStudentId.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue!=null) {
+            if (newValue != null) {
                 setStudentDetails(newValue);
             }
         });
 
         cmbRoomTypeId.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue!=null) {
+            if (newValue != null) {
                 setRoomDetails(newValue);
             }
         });
@@ -66,9 +76,18 @@ public class ReserveRoomFormController {
     private void setRoomDetails(String roomTypeId) {
         ArrayList<RoomDTO> roomDetailsByRoomTypeId = roomBO.getRoomDetailsByRoomTypeId(roomTypeId);
         for (RoomDTO roomDTO : roomDetailsByRoomTypeId) {
-            txtRoomType.setText(roomDTO.getType());
+            String rmTypeId = roomDTO.getRoomTypeId();
+            String rmType = roomDTO.getType();
+            txtRoomType.setText(rmType);
             txtKeyMoney.setText(String.valueOf(roomDTO.getKeyMoney()));
+            generateRoomNo(rmTypeId, rmType);
         }
+
+    }
+
+    private void generateRoomNo(String typeId, String type) {
+        String s = reservationBO.generateRoomIdByRoomType(typeId, type);
+        lblRoomNo.setText(s);
     }
 
     private void setStudentDetails(String id) {
@@ -99,6 +118,9 @@ public class ReserveRoomFormController {
 
 
     public void textFieldKeyReleased(KeyEvent keyEvent) {
+        if (txtStatus.getText().length() > 0) {
+            btnBook.setDisable(false);
+        }
     }
 
     public void backBtnOnAction(ActionEvent actionEvent) throws IOException {
@@ -110,6 +132,18 @@ public class ReserveRoomFormController {
     public void bookBtnOnAction(ActionEvent actionEvent) {
     }
 
-    public void cancelBtnOnAction(ActionEvent actionEvent) {
+    public void clearFormOnAction(ActionEvent actionEvent) {
+        clearForm();
+    }
+
+    private void clearForm() {
+        cmbStudentId.getSelectionModel().clearSelection();
+        cmbRoomTypeId.getSelectionModel().clearSelection();
+        txtName.clear();
+        txtAddress.clear();
+        txtRoomType.clear();
+        txtKeyMoney.clear();
+        txtStatus.clear();
+        lblRoomNo.setText("ROOM NO");
     }
 }
