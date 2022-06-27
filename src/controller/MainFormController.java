@@ -99,16 +99,14 @@ public class MainFormController {
     public void playMouseClickedAnimation(MouseEvent event) throws IOException {
         if (event.getSource() instanceof ImageView) {
             ImageView icon = (ImageView) event.getSource();
-
             Stage stage = (Stage) mainContext.getScene().getWindow();
+
             switch (icon.getId()) {
                 case "imgAvailable":
                     stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/AvailableRoomForm.fxml"))));
-                    stage.show();
                     break;
                 case "imgRegistration":
                     stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/RegistrationFrom.fxml"))));
-                    stage.show();
                     break;
                 case "imgManageStudents":
                     stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/ManageStudentForm.fxml"))));
@@ -116,9 +114,13 @@ public class MainFormController {
                 case "imgManageRooms":
                     stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/ManageRoomForm.fxml"))));
                     break;
-//                case "imgBooking":
-
+                case "imgBooking":
+                    stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/ReserveRoomForm.fxml"))));
+                    break;
+                default:
+                    System.out.println("Default");
             }
+            stage.centerOnScreen();
         }
     }
 

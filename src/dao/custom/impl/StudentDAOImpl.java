@@ -102,4 +102,23 @@ public class StudentDAOImpl implements StudentDAO {
     public Student search(String s) {
         return null;
     }
+
+    @Override
+    public ArrayList<Student> getStudent(String id) {
+        Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
+        Transaction transaction = session.beginTransaction();
+
+        String hql = "FROM Student WHERE id = :student_id";
+        Query query = session.createQuery(hql);
+        query.setParameter("student_id", id);
+        List<Student> list = query.list();
+        ArrayList<Student> arrayList = new ArrayList<>();
+        arrayList.add(new Student(
+                list.get(0).getId(), list.get(0).getName(), list.get(0).getAddress(), list.get(0).getContactNo(), list.get(0).getDate(), list.get(0).getGender()
+        ));
+
+        transaction.commit();
+        session.close();
+        return arrayList;
+    }
 }

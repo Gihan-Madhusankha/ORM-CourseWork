@@ -94,4 +94,21 @@ public class RoomDAOImpl implements RoomDAO {
     public Room search(String s) {
         return null;
     }
+
+    @Override
+    public ArrayList<Room> getRoom(String roomTypeId) {
+        Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
+        Transaction transaction = session.beginTransaction();
+
+        String hql = "FROM Room WHERE roomTypeId = :room_type_id";
+        Query query = session.createQuery(hql);
+        query.setParameter("room_type_id", roomTypeId);
+        List<Room> list = query.list();
+        ArrayList<Room> arrayList = new ArrayList<>();
+        arrayList.add(new Room(list.get(0).getRoomTypeId(), list.get(0).getType(), list.get(0).getKeyMoney(), list.get(0).getRoomQty()));
+
+        transaction.commit();
+        session.close();
+        return arrayList;
+    }
 }

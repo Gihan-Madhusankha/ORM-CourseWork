@@ -4,6 +4,7 @@ import dto.StudentDTO;
 import entity.Student;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : Gihan Madhusankha
@@ -18,4 +19,6 @@ public interface StudentBO {
     boolean deleteStudent(String id);
 
     boolean updateStudent(StudentDTO dto);
+
+    ArrayList<StudentDTO> getStudentDetailsById(String id);
 }

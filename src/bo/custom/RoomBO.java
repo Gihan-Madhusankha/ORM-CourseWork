@@ -17,4 +17,6 @@ public interface RoomBO {
     boolean updateRoom(RoomDTO dto);
 
     boolean deleteRoom(String id);
+
+    ArrayList<RoomDTO> getRoomDetailsByRoomTypeId(String roomTypeId);
 }

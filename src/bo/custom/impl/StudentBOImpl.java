@@ -7,6 +7,7 @@ import dto.StudentDTO;
 import entity.Student;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : Gihan Madhusankha
@@ -44,5 +45,17 @@ public class StudentBOImpl implements StudentBO {
     public boolean updateStudent(StudentDTO dto) {
         return studentDAO.update(new Student(dto.getId(), dto.getName(), dto.getAddress(), dto.getContactNo(),
                 dto.getDate(), dto.getGender()));
+    }
+
+    @Override
+    public ArrayList<StudentDTO> getStudentDetailsById(String id) {
+        ArrayList<Student> student = studentDAO.getStudent(id);
+        ArrayList<StudentDTO> studentDTOS = new ArrayList<>();
+        for (Student s : student) {
+            studentDTOS.add(new StudentDTO(
+                    s.getId(), s.getName(), s.getAddress(), s.getContactNo(), s.getDate(), s.getGender()
+            ));
+        }
+        return studentDTOS;
     }
 }

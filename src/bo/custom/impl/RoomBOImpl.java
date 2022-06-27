@@ -42,4 +42,17 @@ public class RoomBOImpl implements RoomBO {
     public boolean deleteRoom(String id) {
         return roomDAO.delete(id);
     }
+
+    @Override
+    public ArrayList<RoomDTO> getRoomDetailsByRoomTypeId(String roomTypeId) {
+        ArrayList<Room> room = roomDAO.getRoom(roomTypeId);
+        ArrayList<RoomDTO> roomDTOS = new ArrayList<>();
+        for (Room r : room) {
+            roomDTOS.add(new RoomDTO(
+                    r.getRoomTypeId(), r.getType(), r.getKeyMoney(), r.getRoomQty()
+            ));
+        }
+        return roomDTOS;
+    }
+
 }
