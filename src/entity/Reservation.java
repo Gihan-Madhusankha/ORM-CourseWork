@@ -28,12 +28,6 @@ public class Reservation {
     private LocalDate date;
 
     @Column(nullable = false)
-    private String studentId;
-
-    @Column(nullable = false)
-    private String roomTypeId;
-
-    @Column(nullable = false)
     private String status;
 
     @ToString.Exclude
@@ -43,4 +37,13 @@ public class Reservation {
     @ToString.Exclude
     @ManyToOne
     private Room room;
+
+    public Reservation(String resId, LocalDate date, String status) {
+    }
+
+//    public Reservation(String resId, LocalDate date, String status) {
+//        this.resId = resId;
+//        this.date = date;
+//        this.status = status;
+//    }
 }

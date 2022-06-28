@@ -2,14 +2,11 @@ package dao.custom.impl;
 
 import dao.custom.StudentDAO;
 import entity.Student;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import util.FactoryConfiguration;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +28,7 @@ public class StudentDAOImpl implements StudentDAO {
         for (Student student : list) {
             allStudents.add(new Student(
                     student.getId(), student.getName(), student.getAddress(), student.getContactNo(),
-                    student.getDate(), student.getGender()
+                    student.getDob(), student.getGender()
             ));
         }
         transaction.commit();
@@ -47,7 +44,7 @@ public class StudentDAOImpl implements StudentDAO {
         student.setAddress(entity.getAddress());
         student.setContactNo(entity.getContactNo());
         student.setGender(entity.getGender());
-        student.setDate(entity.getDate());
+        student.setDob(entity.getDob());
 
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
@@ -62,12 +59,12 @@ public class StudentDAOImpl implements StudentDAO {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
 
-        String hql = "UPDATE Student SET name = :stName, address = :stAddress, contactNo = :stContactNo, date = :stDate, gender = :stGender WHERE id = :stId";
+        String hql = "UPDATE Student SET name = :stName, address = :stAddress, contactNo = :stContactNo, dob = :stDate, gender = :stGender WHERE id = :stId";
         Query query = session.createQuery(hql);
         query.setParameter("stName", entity.getName());
         query.setParameter("stAddress", entity.getAddress());
         query.setParameter("stContactNo", entity.getContactNo());
-        query.setParameter("stDate", entity.getDate());
+        query.setParameter("stDate", entity.getDob());
         query.setParameter("stGender", entity.getGender());
         query.setParameter("stId", entity.getId());
         boolean b = query.executeUpdate() > 0;
@@ -114,7 +111,7 @@ public class StudentDAOImpl implements StudentDAO {
         List<Student> list = query.list();
         ArrayList<Student> arrayList = new ArrayList<>();
         arrayList.add(new Student(
-                list.get(0).getId(), list.get(0).getName(), list.get(0).getAddress(), list.get(0).getContactNo(), list.get(0).getDate(), list.get(0).getGender()
+                list.get(0).getId(), list.get(0).getName(), list.get(0).getAddress(), list.get(0).getContactNo(), list.get(0).getDob(), list.get(0).getGender()
         ));
 
         transaction.commit();

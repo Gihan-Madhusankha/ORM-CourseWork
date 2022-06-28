@@ -8,6 +8,8 @@ import dto.ReservationDTO;
  **/
 
 public interface ReservationBO {
-    String generateRoomIdByRoomType(String typeId, String type);
+    String generateResId();
+
+    boolean bookTheRoom(ReservationDTO dto);
 
 }

@@ -55,4 +55,9 @@ public class RoomBOImpl implements RoomBO {
         return roomDTOS;
     }
 
+    @Override
+    public boolean updateRoomQty(String value) {
+        return roomDAO.updateQty(value);
+    }
+
 }

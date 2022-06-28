@@ -1,5 +1,6 @@
 package dto;
 
+import entity.Student;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 public class ReservationDTO {
     private String resId;
     private LocalDate date;
-    private String studentId;
-    private String roomTypeId;
     private String status;
+    private StudentDTO studentDTO;
+    private RoomDTO roomDTO;
 }

@@ -118,6 +118,7 @@ public class ManageRoomFormController {
             txtKeyMoney.setText(String.valueOf(roomDTO.getKeyMoney()));
             txtRoomQty.setText(String.valueOf(roomDTO.getRoomQty()));
             btnAddNew.setDisable(false);
+            txtRoomTypeId.setEditable(false);
             btnAddNew.setText("UPDATE");
         });
     }
@@ -175,6 +176,7 @@ public class ManageRoomFormController {
         txtKeyMoney.clear();
         txtRoomQty.clear();
         btnAddNew.setDisable(true);
+        txtRoomTypeId.setEditable(true);
         btnAddNew.setText("ADD");
     }
 

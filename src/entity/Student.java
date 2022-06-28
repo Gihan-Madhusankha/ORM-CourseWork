@@ -27,14 +27,14 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String address;
 
     @Column(nullable = false)
     private String contactNo;
 
-    @Column(name = "regDate", nullable = false)
-    private LocalDate date;
+    @Column(nullable = false)
+    private LocalDate dob;
 
     @Column(nullable = false)
     private String gender;
@@ -43,12 +43,12 @@ public class Student {
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Reservation> reservationList = new ArrayList<>();
 
-    public Student(String id, String name, String address, String contactNo, LocalDate date, String gender) {
+    public Student(String id, String name, String address, String contactNo, LocalDate dob, String gender) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.contactNo = contactNo;
-        this.date = date;
+        this.dob = dob;
         this.gender = gender;
     }
 }

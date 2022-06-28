@@ -4,6 +4,7 @@ import bo.custom.StudentBO;
 import bo.custom.impl.StudentBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import dto.StudentDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,9 +19,6 @@ import javafx.stage.Stage;
 import util.ValidateUtil;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.regex.Pattern;
 
@@ -31,21 +29,27 @@ import java.util.regex.Pattern;
 
 public class RegistrationFromController {
 
+    private final StudentBO studentBO = new StudentBOImpl();
     public AnchorPane regContext;
     public TextField txtId;
     public TextField txtName;
     public TextField txtAddress;
     public JFXComboBox<String> cmbGender;
     public TextField txtContactNo;
-    public TextField txtRegDate;
+    //    public TextField txtRegDate;
     public JFXButton btnReg;
+    public JFXDatePicker txtDob;
+    public JFXButton btnManage;
+    public JFXButton btnBookTheRoom;
     LinkedHashMap<TextField, Pattern> map = new LinkedHashMap<>();
 
     public void initialize() {
         loadGenderList();
         btnReg.setDisable(true);
-        txtRegDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        txtRegDate.setEditable(false);
+//        txtRegDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        txtDob.setEditable(false);
+        btnManage.setDisable(true);
+        btnBookTheRoom.setDisable(true);
 
         Pattern idPattern = Pattern.compile("^(S00-)[0-9]{3}$");
         Pattern namePattern = Pattern.compile("^[A-z ]{3,20}$");
@@ -67,7 +71,7 @@ public class RegistrationFromController {
 
     public void registerBtnOnAction(ActionEvent actionEvent) {
         boolean b = (txtId.getText() != null) && (txtName.getText() != null) && (txtAddress.getText() != null) && (!txtAddress.getText().equals(" ")) && (txtContactNo.getText() != null)
-                && (cmbGender.getValue() != null) && (txtRegDate.getText() != null);
+                && (cmbGender.getValue() != null) && (txtDob.getValue() != null);
 
         if (!b) {
             new Alert(Alert.AlertType.WARNING, "Some values are empty..!").show();
@@ -75,13 +79,15 @@ public class RegistrationFromController {
         }
 
         /*save student*/
-        StudentBO studentBO = new StudentBOImpl();
         boolean saveStudent = studentBO.saveStudent(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(),
-                txtContactNo.getText(), LocalDate.now(), cmbGender.getValue()));
+                txtContactNo.getText(), txtDob.getValue(), cmbGender.getValue()));
 
         if (saveStudent) {
             new Alert(Alert.AlertType.CONFIRMATION, "Registration successfully.").show();
+            btnManage.setDisable(false);
+            btnBookTheRoom.setDisable(false);
             clearForm();
+
         } else {
             new Alert(Alert.AlertType.ERROR, "Something went wrong..!!").show();
         }
@@ -99,6 +105,7 @@ public class RegistrationFromController {
         txtContactNo.clear();
         cmbGender.getSelectionModel().clearSelection();
         btnReg.setDisable(true);
+        txtDob.getEditor().clear();
         ValidateUtil.setBorders(txtId, txtName, txtAddress, txtContactNo);
     }
 
@@ -109,6 +116,18 @@ public class RegistrationFromController {
     public void backBtnOnAction(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) regContext.getScene().getWindow();
         stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/MainForm.fxml"))));
+        stage.show();
+    }
+
+    public void manageBtnOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/ManageStudentForm.fxml"))));
+        stage.show();
+    }
+
+    public void bookTheRoomBtnOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = new Stage();
+        stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/ReserveRoomForm.fxml"))));
         stage.show();
     }
 }

@@ -8,21 +8,28 @@ import bo.custom.impl.RoomBOImpl;
 import bo.custom.impl.StudentBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import dto.ReservationDTO;
 import dto.RoomDTO;
 import dto.StudentDTO;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import view.tm.ReservationList;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -39,15 +46,40 @@ public class ReserveRoomFormController {
     public JFXComboBox<String> cmbRoomTypeId;
     public JFXComboBox<String> cmbStudentId;
     public TextField txtDate;
-    public Label lblRoomNo;
     public TextField txtRoomType;
     public TextField txtName;
     public TextField txtStatus;
     public TextField txtKeyMoney;
     public TextField txtAddress;
     public JFXButton btnBook;
+    public TableView<ReservationList> tblReservationList;
+    public TableColumn colStId;
+    public TableColumn colName;
+    public TableColumn colRoomTypeId;
+    public TableColumn colRoomType;
+    public TableColumn colStatus;
+    public TableColumn colOperate;
+    public JFXButton btnAddToList;
+    private ObservableList<ReservationList> obList = null;
 
     public void initialize() {
+        colStId.setCellValueFactory(new PropertyValueFactory<>("stId"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colRoomTypeId.setCellValueFactory(new PropertyValueFactory<>("roomTypeId"));
+        colRoomType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        colOperate.setCellValueFactory(param -> {
+            ImageView delete = new ImageView("view/asserts/image/delete.png");
+
+            HBox hBox = new HBox(delete);
+            delete.setFitWidth(20);
+            delete.setFitHeight(20);
+            hBox.setAlignment(Pos.CENTER);
+            delete.setStyle("-fx-cursor: Hand");
+            deleteRoomofList(delete);
+            return new ReadOnlyObjectWrapper<>(hBox);
+        });
+
         loadAllStudentIds();
         loadAllRoomTypeIds();
         txtDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
@@ -73,6 +105,12 @@ public class ReserveRoomFormController {
         });
     }
 
+    private void deleteRoomofList(ImageView delete) {
+        delete.setOnMouseClicked(event -> {
+            obList.clear();
+        });
+    }
+
     private void setRoomDetails(String roomTypeId) {
         ArrayList<RoomDTO> roomDetailsByRoomTypeId = roomBO.getRoomDetailsByRoomTypeId(roomTypeId);
         for (RoomDTO roomDTO : roomDetailsByRoomTypeId) {
@@ -80,14 +118,9 @@ public class ReserveRoomFormController {
             String rmType = roomDTO.getType();
             txtRoomType.setText(rmType);
             txtKeyMoney.setText(String.valueOf(roomDTO.getKeyMoney()));
-            generateRoomNo(rmTypeId, rmType);
+//            generateRoomNo(rmTypeId, rmType);
         }
 
-    }
-
-    private void generateRoomNo(String typeId, String type) {
-        String s = reservationBO.generateRoomIdByRoomType(typeId, type);
-        lblRoomNo.setText(s);
     }
 
     private void setStudentDetails(String id) {
@@ -116,7 +149,6 @@ public class ReserveRoomFormController {
         cmbRoomTypeId.setItems(obList);
     }
 
-
     public void textFieldKeyReleased(KeyEvent keyEvent) {
         if (txtStatus.getText().length() > 0) {
             btnBook.setDisable(false);
@@ -130,6 +162,35 @@ public class ReserveRoomFormController {
     }
 
     public void bookBtnOnAction(ActionEvent actionEvent) {
+        ArrayList<StudentDTO> s = studentBO.getStudentDetailsById(cmbStudentId.getValue());
+        StudentDTO studentDTO = new StudentDTO();
+        for (StudentDTO dto : s) {
+            studentDTO.setId(dto.getId());
+            studentDTO.setName(dto.getName());
+            studentDTO.setAddress(dto.getAddress());
+            studentDTO.setContactNo(dto.getContactNo());
+            studentDTO.setDob(dto.getDob());
+            studentDTO.setGender(dto.getGender());
+        }
+
+        ArrayList<RoomDTO> r = roomBO.getRoomDetailsByRoomTypeId(cmbRoomTypeId.getValue());
+        RoomDTO roomDTO = new RoomDTO();
+        for (RoomDTO dto : r) {
+            roomDTO.setRoomTypeId(dto.getRoomTypeId());
+            roomDTO.setType(dto.getType());
+            roomDTO.setKeyMoney(dto.getKeyMoney());
+            roomDTO.setRoomQty(dto.getRoomQty());
+        }
+
+        String s1 = reservationBO.generateResId();
+        boolean b = reservationBO.bookTheRoom(new ReservationDTO(
+                s1, LocalDate.now(), txtStatus.getText(), studentDTO, roomDTO
+        ));
+        if (b) {
+            roomBO.updateRoomQty(cmbRoomTypeId.getValue());
+            clearForm();
+            new Alert(Alert.AlertType.CONFIRMATION, "Room Reservation Successful.").show();
+        }
     }
 
     public void clearFormOnAction(ActionEvent actionEvent) {
@@ -144,6 +205,17 @@ public class ReserveRoomFormController {
         txtRoomType.clear();
         txtKeyMoney.clear();
         txtStatus.clear();
-        lblRoomNo.setText("ROOM NO");
+        obList.clear();
+        btnBook.setDisable(true);
+    }
+
+    public void addToListOnAction(ActionEvent actionEvent) {
+        obList = FXCollections.observableArrayList();
+        if (cmbStudentId.getValue() != null && cmbRoomTypeId.getValue() != null && txtStatus.getText() != null) {
+            obList.add(new ReservationList(
+                    cmbStudentId.getValue(), txtName.getText(), cmbRoomTypeId.getValue(), txtRoomType.getText(), txtStatus.getText()
+            ));
+        }
+        tblReservationList.setItems(obList);
     }
 }

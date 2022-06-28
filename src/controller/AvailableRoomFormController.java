@@ -77,4 +77,8 @@ public class AvailableRoomFormController {
         stage.show();
 
     }
+
+    public void checkRoomsBtnOnAction(ActionEvent actionEvent) {
+
+    }
 }

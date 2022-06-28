@@ -19,6 +19,6 @@ public class StudentDTO {
     private String name;
     private String address;
     private String contactNo;
-    private LocalDate date;
+    private LocalDate dob;
     private String gender;
 }

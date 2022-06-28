@@ -111,4 +111,23 @@ public class RoomDAOImpl implements RoomDAO {
         session.close();
         return arrayList;
     }
+
+    @Override
+    public boolean updateQty(String value) {
+        Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
+        Transaction transaction = session.beginTransaction();
+
+        Room room = session.get(Room.class, value);
+        String hql = "UPDATE Room SET roomQty = :room_qty WHERE roomTypeId = :room_type_id";
+        Query query = session.createQuery(hql);
+        query.setParameter("room_qty", room.getRoomQty() - 1);
+        query.setParameter("room_type_id", value);
+        System.out.println();
+        boolean b = query.executeUpdate() > 0;
+
+        transaction.commit();
+        session.close();
+        return b;
+    }
+
 }

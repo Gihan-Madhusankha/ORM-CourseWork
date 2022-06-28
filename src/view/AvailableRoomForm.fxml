@@ -18,7 +18,7 @@
          </font>
       </Label>
       <Separator layoutX="23.0" layoutY="49.0" prefHeight="0.0" prefWidth="549.0" />
-      <TableView fx:id="tblAvailable" layoutX="23.0" layoutY="116.0" prefHeight="257.0" prefWidth="549.0">
+      <TableView fx:id="tblAvailable" layoutX="23.0" layoutY="157.0" prefHeight="216.0" prefWidth="549.0">
         <columns>
           <TableColumn fx:id="colRoomTypeId" prefWidth="144.0" text="Room Type ID" />
           <TableColumn fx:id="colRoomType" prefWidth="127.0" text="Type" />
@@ -31,10 +31,18 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <AnchorPane layoutX="21.0" layoutY="70.0" prefHeight="30.0" prefWidth="549.0" style="-fx-border-radius: 3;" styleClass="textPane" stylesheets="@asserts/style/CustomerForm.css">
+      <AnchorPane layoutX="21.0" layoutY="115.0" prefHeight="30.0" prefWidth="549.0" style="-fx-border-radius: 3;" styleClass="textPane" stylesheets="@asserts/style/CustomerForm.css">
          <children>
             <TextField fx:id="searchTextField" layoutX="4.0" layoutY="2.0" prefHeight="25.0" prefWidth="541.0" promptText="Search..." styleClass="textField" />
          </children>
       </AnchorPane>
+      <JFXButton buttonType="RAISED" layoutX="401.0" layoutY="66.0" onAction="#checkRoomsBtnOnAction" prefHeight="35.0" prefWidth="169.0" style="-fx-background-color: #1e90ff;" text="CHECK ROOMS" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
    </children>
 </AnchorPane>

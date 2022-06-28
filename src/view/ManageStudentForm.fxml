@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="studentContext" prefHeight="400.0" prefWidth="600.0" stylesheets="@asserts/style/CustomerForm.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ManageStudentFormController">
    <children>
       <Label layoutX="26.0" layoutY="11.0" text="Manage Student" textFill="#170e94">
@@ -33,8 +32,8 @@
           <TableColumn fx:id="colName" text="Name" />
             <TableColumn fx:id="colAddress" prefWidth="93.0" text="Address" />
             <TableColumn fx:id="colTelNo" prefWidth="83.0" text="Tel.No" />
+            <TableColumn fx:id="colRegDate" prefWidth="81.0" text="DOB" />
             <TableColumn fx:id="colGender" prefWidth="60.0" text="Gender" />
-            <TableColumn fx:id="colRegDate" prefWidth="81.0" text="Reg.Date" />
             <TableColumn fx:id="colOperate" prefWidth="65.0" text="Operate" />
         </columns>
       </TableView>

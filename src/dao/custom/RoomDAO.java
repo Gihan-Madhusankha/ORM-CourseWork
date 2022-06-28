@@ -12,4 +12,8 @@ import java.util.ArrayList;
 
 public interface RoomDAO extends CrudDAO<Room, String> {
     ArrayList<Room> getRoom(String roomTypeId);
+
+    boolean updateQty(String value);
+
+//    boolean updateRoomQty(Room entity);
 }
