@@ -22,5 +22,7 @@ public interface RoomBO {
 
     boolean updateRoomQty(String value);
 
+    void updateQtyOfRoom(String roomTypeId);
+
 //    boolean updateRoomQty(RoomDTO dto);
 }

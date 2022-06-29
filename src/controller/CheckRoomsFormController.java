@@ -1,7 +1,9 @@
 package controller;
 
 import bo.custom.ReservationBO;
+import bo.custom.RoomBO;
 import bo.custom.impl.ReservationBOImpl;
+import bo.custom.impl.RoomBOImpl;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +32,7 @@ import java.util.Optional;
 
 public class CheckRoomsFormController {
     private final ReservationBO reservationBO = new ReservationBOImpl();
+    private final RoomBO roomBO = new RoomBOImpl();
 
     public AnchorPane checkTheRoomContext;
     public TableView<ReservationListTM> tblCheckTheRoom;
@@ -102,6 +105,7 @@ public class CheckRoomsFormController {
 
             if (buttonType.get().equals(ButtonType.YES)) {
                 reservationBO.deleteReservationByResID(reservationDTO.getResId());
+                updateRoomQty(reservationDTO.getRoom());
                 obList.clear();
                 loadReservationDetails();
                 filteredList();
@@ -112,6 +116,10 @@ public class CheckRoomsFormController {
             }
 
         });
+    }
+
+    private void updateRoomQty(String roomTypeId) {
+        roomBO.updateQtyOfRoom(roomTypeId);
     }
 
     private void loadReservationDetails() {

@@ -15,5 +15,7 @@ public interface RoomDAO extends CrudDAO<Room, String> {
 
     boolean updateQty(String value);
 
+    void updateQTY(String roomTypeId);
+
 //    boolean updateRoomQty(Room entity);
 }

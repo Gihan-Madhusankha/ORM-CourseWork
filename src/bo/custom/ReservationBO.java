@@ -18,4 +18,5 @@ public interface ReservationBO {
     ArrayList<ReservationListTM> getAllBookingRoomDetails();
 
     boolean deleteReservationByResID(String resId);
+
 }

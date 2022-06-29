@@ -100,5 +100,4 @@ public class ReservationDAOImpl implements ReservationDAO {
     public Reservation search(String s) {
         return null;
     }
-
 }

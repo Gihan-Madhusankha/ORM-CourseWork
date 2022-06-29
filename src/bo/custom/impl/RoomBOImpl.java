@@ -60,4 +60,9 @@ public class RoomBOImpl implements RoomBO {
         return roomDAO.updateQty(value);
     }
 
+    @Override
+    public void updateQtyOfRoom(String roomTypeId) {
+        roomDAO.updateQTY(roomTypeId);
+    }
+
 }
