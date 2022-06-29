@@ -18,14 +18,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import util.ValidateUtil;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 /**
  * @author : Gihan Madhusankha
@@ -35,10 +39,10 @@ import java.util.Optional;
 public class ManageStudentFormController {
     private final StudentBO studentBO = new StudentBOImpl();
     public AnchorPane studentContext;
-    public JFXTextField txtStudentId;
-    public JFXTextField txtName;
-    public JFXTextField txtAddress;
-    public JFXTextField txtContactNo;
+    public TextField txtStudentId;
+    public TextField txtName;
+    public TextField txtAddress;
+    public TextField txtContactNo;
     public JFXComboBox<String> cmbGender;
     public JFXButton btnUpdate;
     public TableColumn colStudentId;
@@ -52,6 +56,7 @@ public class ManageStudentFormController {
     public TableView<StudentDTO> tblManageStudent;
     private ObservableList<StudentDTO> obList = null;
     private StudentDTO studentDTO = null;
+    private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap<>();
 
     public void initialize() {
         colStudentId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -86,6 +91,15 @@ public class ManageStudentFormController {
         btnUpdate.setDisable(true);
         filteredList();
 
+        Pattern idPattern = Pattern.compile("^(S00-)[0-9]{3}$");
+        Pattern namePattern = Pattern.compile("^[A-z ]{3,20}$");
+        Pattern addressPattern = Pattern.compile("^[A-z0-9 ,./]*$");
+        Pattern contactPattern = Pattern.compile("^07(0|1|2|5|6|7|8)[0-9]{7}$");
+
+        map.put(txtStudentId, idPattern);
+        map.put(txtName, namePattern);
+        map.put(txtAddress, addressPattern);
+        map.put(txtContactNo, contactPattern);
     }
 
     private void filteredList() {
@@ -131,6 +145,7 @@ public class ManageStudentFormController {
             cmbGender.setValue(studentDTO.getGender());
             btnUpdate.setDisable(false);
             txtStudentId.setEditable(false);
+            ValidateUtil.setBorders(txtStudentId, txtName, txtAddress, txtContactNo);
         });
     }
 
@@ -144,11 +159,16 @@ public class ManageStudentFormController {
             Optional<ButtonType> buttonType = alert.showAndWait();
 
             if (buttonType.get().equals(ButtonType.YES)) {
-                studentBO.deleteStudent(studentDTO.getId());
-                clearForm();
-                obList.clear();
-                loadAllStudents();
-                new Alert(Alert.AlertType.CONFIRMATION, "Deleted...").show();
+                try {
+                    studentBO.deleteStudent(studentDTO.getId());
+                    clearForm();
+                    obList.clear();
+                    loadAllStudents();
+                    new Alert(Alert.AlertType.CONFIRMATION, "Deleted...").show();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -163,9 +183,15 @@ public class ManageStudentFormController {
     }
 
     private void loadAllStudents() {
-        ArrayList<StudentDTO> allStudents = studentBO.getAllStudents();
-        obList = FXCollections.observableArrayList(allStudents);
-        tblManageStudent.setItems(obList);
+        ArrayList<StudentDTO> allStudents = null;
+        try {
+            allStudents = studentBO.getAllStudents();
+            obList = FXCollections.observableArrayList(allStudents);
+            tblManageStudent.setItems(obList);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void backBtnOnAction(ActionEvent actionEvent) throws IOException {
@@ -176,19 +202,26 @@ public class ManageStudentFormController {
 
     public void updateBtnOnAction(ActionEvent actionEvent) {
         /*update student*/
-        boolean b = studentBO.updateStudent(new StudentDTO(txtStudentId.getText(), txtName.getText(), txtAddress.getText(), txtContactNo.getText(),
-                LocalDate.now(), cmbGender.getValue()));
-        if (b) {
-            obList.clear();
-            loadAllStudents();
-            clearForm();
-            filteredList();
-            new Alert(Alert.AlertType.CONFIRMATION, "Updated..").show();
-        } else {
-            new Alert(Alert.AlertType.ERROR, "Something else").show();
+        boolean b = false;
+        try {
+            b = studentBO.updateStudent(new StudentDTO(txtStudentId.getText(), txtName.getText(), txtAddress.getText(), txtContactNo.getText(),
+                    LocalDate.now(), cmbGender.getValue()));
+            if (b) {
+                obList.clear();
+                loadAllStudents();
+                clearForm();
+                filteredList();
+                new Alert(Alert.AlertType.CONFIRMATION, "Updated..").show();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Something else").show();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public void addNewBtnOnAction(ActionEvent actionEvent) {
+    public void textFieldKeyReleased(KeyEvent keyEvent) {
+        ValidateUtil.validate(map, btnUpdate);
     }
 }

@@ -1,8 +1,10 @@
 package bo.custom;
 
+import dao.SuperDAO;
 import dto.ReservationDTO;
 import view.tm.ReservationListTM;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -10,13 +12,13 @@ import java.util.ArrayList;
  * 2022-06-27 1:35 PM
  **/
 
-public interface ReservationBO {
-    String generateResId();
+public interface ReservationBO extends SuperDAO {
+    String generateResId() throws IOException;
 
-    boolean bookTheRoom(ReservationDTO dto);
+    boolean bookTheRoom(ReservationDTO dto) throws IOException;
 
-    ArrayList<ReservationListTM> getAllBookingRoomDetails();
+    ArrayList<ReservationListTM> getAllBookingRoomDetails() throws IOException;
 
-    boolean deleteReservationByResID(String resId);
+    boolean deleteReservationByResID(String resId) throws IOException;
 
 }

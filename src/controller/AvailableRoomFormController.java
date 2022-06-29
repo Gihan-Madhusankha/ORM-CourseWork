@@ -33,6 +33,7 @@ public class AvailableRoomFormController {
     public TableColumn colRoomQty;
     public AnchorPane availableContext;
     public TextField searchTextField;
+    RoomBO roomBO = new RoomBOImpl();
 
     public void initialize() {
         colRoomTypeId.setCellValueFactory(new PropertyValueFactory<>("roomTypeId"));
@@ -44,30 +45,35 @@ public class AvailableRoomFormController {
     }
 
     private void loadAllRoomDetails() {
-        RoomBO roomBO = new RoomBOImpl();
-        ArrayList<RoomDTO> allRooms = roomBO.getAllRooms();
-        ObservableList<RoomDTO> obList = FXCollections.observableArrayList(allRooms);
-        tblAvailable.setItems(obList);
+        try {
+            ArrayList<RoomDTO> allRooms = null;
+            allRooms = roomBO.getAllRooms();
+            ObservableList<RoomDTO> obList = FXCollections.observableArrayList(allRooms);
+            tblAvailable.setItems(obList);
 
-        FilteredList<RoomDTO> filteredList = new FilteredList<>(obList, b -> true);
-        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredList.setPredicate(searchModel -> {
+            FilteredList<RoomDTO> filteredList = new FilteredList<>(obList, b -> true);
+            searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+                filteredList.setPredicate(searchModel -> {
 
-                if (newValue.isEmpty() || newValue == null) {
-                    return true;
-                }
+                    if (newValue.isEmpty() || newValue == null) {
+                        return true;
+                    }
 
-                String searchKeyword = newValue.toLowerCase();
-                if (searchModel.getRoomTypeId().toLowerCase().indexOf(searchKeyword) > -1) {
-                    return true;
-                } else return (searchModel.getType().toLowerCase().indexOf(searchKeyword) > -1);
+                    String searchKeyword = newValue.toLowerCase();
+                    if (searchModel.getRoomTypeId().toLowerCase().indexOf(searchKeyword) > -1) {
+                        return true;
+                    } else return (searchModel.getType().toLowerCase().indexOf(searchKeyword) > -1);
 
+                });
             });
-        });
 
-        SortedList<RoomDTO> sortedList = new SortedList<>(filteredList);
-        sortedList.comparatorProperty().bind(tblAvailable.comparatorProperty());
-        tblAvailable.setItems(sortedList);
+            SortedList<RoomDTO> sortedList = new SortedList<>(filteredList);
+            sortedList.comparatorProperty().bind(tblAvailable.comparatorProperty());
+            tblAvailable.setItems(sortedList);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -1,7 +1,9 @@
 package bo.custom;
 
+import dao.SuperDAO;
 import dto.RoomDTO;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -9,20 +11,20 @@ import java.util.ArrayList;
  * 2022-06-25 12:04 PM
  **/
 
-public interface RoomBO {
-    ArrayList<RoomDTO> getAllRooms();
+public interface RoomBO extends SuperDAO {
+    ArrayList<RoomDTO> getAllRooms() throws IOException;
 
-    boolean saveRoom(RoomDTO dto);
+    boolean saveRoom(RoomDTO dto) throws IOException;
 
-    boolean updateRoom(RoomDTO dto);
+    boolean updateRoom(RoomDTO dto) throws IOException;
 
-    boolean deleteRoom(String id);
+    boolean deleteRoom(String id) throws IOException;
 
-    ArrayList<RoomDTO> getRoomDetailsByRoomTypeId(String dto);
+    ArrayList<RoomDTO> getRoomDetailsByRoomTypeId(String dto) throws IOException;
 
-    boolean updateRoomQty(String value);
+    boolean updateRoomQty(String value) throws IOException;
 
-    void updateQtyOfRoom(String roomTypeId);
+    void updateQtyOfRoom(String roomTypeId) throws IOException;
 
 //    boolean updateRoomQty(RoomDTO dto);
 }

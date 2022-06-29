@@ -65,7 +65,6 @@ public class CheckRoomsFormController {
         });
 
         loadReservationDetails();
-        filteredList();
     }
 
     private void filteredList() {
@@ -78,14 +77,14 @@ public class CheckRoomsFormController {
                 }
 
                 String searchKeyword = newValue.toLowerCase();
-                if (searchModel.getResId().indexOf(searchKeyword) > -1) {
+                if (searchModel.getResId().toLowerCase().indexOf(searchKeyword) > -1) {
                     return true;
-                } else if (searchModel.getStatus().indexOf(searchKeyword) > -1) {
+                } else if (searchModel.getStatus().toLowerCase().indexOf(searchKeyword) > -1) {
                     return true;
-                } else if (searchModel.getStudent().indexOf(searchKeyword) > -1) {
+                } else if (searchModel.getStudent().toLowerCase().indexOf(searchKeyword) > -1) {
                     return true;
                 }
-                return searchModel.getRoom().indexOf(searchKeyword) > -1;
+                return searchModel.getRoom().toLowerCase().indexOf(searchKeyword) > -1;
 
             });
         });
@@ -104,13 +103,18 @@ public class CheckRoomsFormController {
             Optional<ButtonType> buttonType = alert.showAndWait();
 
             if (buttonType.get().equals(ButtonType.YES)) {
-                reservationBO.deleteReservationByResID(reservationDTO.getResId());
-                updateRoomQty(reservationDTO.getRoom());
-                obList.clear();
-                loadReservationDetails();
-                filteredList();
+                try {
+                    reservationBO.deleteReservationByResID(reservationDTO.getResId());
+                    updateRoomQty(reservationDTO.getRoom());
+                    obList.clear();
+                    loadReservationDetails();
+                    filteredList();
 
-                new Alert(Alert.AlertType.CONFIRMATION, "Deleted").show();
+                    new Alert(Alert.AlertType.CONFIRMATION, "Deleted").show();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
                 new Alert(Alert.AlertType.ERROR, "Something went wrong..!").show();
             }
@@ -119,18 +123,29 @@ public class CheckRoomsFormController {
     }
 
     private void updateRoomQty(String roomTypeId) {
-        roomBO.updateQtyOfRoom(roomTypeId);
+        try {
+            roomBO.updateQtyOfRoom(roomTypeId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadReservationDetails() {
-        ArrayList<ReservationListTM> roomDetails = reservationBO.getAllBookingRoomDetails();
-        obList = FXCollections.observableArrayList();
-        for (ReservationListTM detail : roomDetails) {
-            obList.add(new ReservationListTM(
-                    detail.getResId(), detail.getDate(), detail.getStatus(), detail.getStudent(), detail.getRoom()
-            ));
+        ArrayList<ReservationListTM> roomDetails = null;
+        try {
+            roomDetails = reservationBO.getAllBookingRoomDetails();
+            obList = FXCollections.observableArrayList();
+            for (ReservationListTM detail : roomDetails) {
+                obList.add(new ReservationListTM(
+                        detail.getResId(), detail.getDate(), detail.getStatus(), detail.getStudent(), detail.getRoom()
+                ));
+            }
+            tblCheckTheRoom.setItems(obList);
+            filteredList();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        tblCheckTheRoom.setItems(obList);
     }
 
     public void backBtnOnAction(ActionEvent actionEvent) throws IOException {

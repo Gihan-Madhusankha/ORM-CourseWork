@@ -18,7 +18,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -112,41 +115,64 @@ public class ReserveRoomFormController {
     }
 
     private void setRoomDetails(String roomTypeId) {
-        ArrayList<RoomDTO> roomDetailsByRoomTypeId = roomBO.getRoomDetailsByRoomTypeId(roomTypeId);
-        for (RoomDTO roomDTO : roomDetailsByRoomTypeId) {
-            String rmTypeId = roomDTO.getRoomTypeId();
-            String rmType = roomDTO.getType();
-            txtRoomType.setText(rmType);
-            txtKeyMoney.setText(String.valueOf(roomDTO.getKeyMoney()));
-//            generateRoomNo(rmTypeId, rmType);
+        ArrayList<RoomDTO> roomDetailsByRoomTypeId = null;
+        try {
+            roomDetailsByRoomTypeId = roomBO.getRoomDetailsByRoomTypeId(roomTypeId);
+            for (RoomDTO roomDTO : roomDetailsByRoomTypeId) {
+                String rmTypeId = roomDTO.getRoomTypeId();
+                String rmType = roomDTO.getType();
+                txtRoomType.setText(rmType);
+                txtKeyMoney.setText(String.valueOf(roomDTO.getKeyMoney()));
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
 
     private void setStudentDetails(String id) {
-        ArrayList<StudentDTO> studentDetailsById = studentBO.getStudentDetailsById(id);
-        for (StudentDTO s : studentDetailsById) {
-            txtName.setText(s.getName());
-            txtAddress.setText(s.getAddress());
+        ArrayList<StudentDTO> studentDetailsById = null;
+        try {
+            studentDetailsById = studentBO.getStudentDetailsById(id);
+            for (StudentDTO s : studentDetailsById) {
+                txtName.setText(s.getName());
+                txtAddress.setText(s.getAddress());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     private void loadAllStudentIds() {
-        ArrayList<StudentDTO> allStudents = studentBO.getAllStudents();
-        ObservableList<String> obList = FXCollections.observableArrayList();
-        for (StudentDTO allStudent : allStudents) {
-            obList.add(allStudent.getId());
+        ArrayList<StudentDTO> allStudents = null;
+        try {
+            allStudents = studentBO.getAllStudents();
+            ObservableList<String> obList = FXCollections.observableArrayList();
+            for (StudentDTO allStudent : allStudents) {
+                obList.add(allStudent.getId());
+            }
+            cmbStudentId.setItems(obList);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        cmbStudentId.setItems(obList);
     }
 
     private void loadAllRoomTypeIds() {
-        ArrayList<RoomDTO> allRooms = roomBO.getAllRooms();
-        ObservableList<String> obList = FXCollections.observableArrayList();
-        for (RoomDTO allRoom : allRooms) {
-            obList.add(allRoom.getRoomTypeId());
+        ArrayList<RoomDTO> allRooms = null;
+        try {
+            allRooms = roomBO.getAllRooms();
+            ObservableList<String> obList = FXCollections.observableArrayList();
+            for (RoomDTO allRoom : allRooms) {
+                obList.add(allRoom.getRoomTypeId());
+            }
+            cmbRoomTypeId.setItems(obList);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        cmbRoomTypeId.setItems(obList);
     }
 
     public void textFieldKeyReleased(KeyEvent keyEvent) {
@@ -162,34 +188,39 @@ public class ReserveRoomFormController {
     }
 
     public void bookBtnOnAction(ActionEvent actionEvent) {
-        ArrayList<StudentDTO> s = studentBO.getStudentDetailsById(cmbStudentId.getValue());
-        StudentDTO studentDTO = new StudentDTO();
-        for (StudentDTO dto : s) {
-            studentDTO.setId(dto.getId());
-            studentDTO.setName(dto.getName());
-            studentDTO.setAddress(dto.getAddress());
-            studentDTO.setContactNo(dto.getContactNo());
-            studentDTO.setDob(dto.getDob());
-            studentDTO.setGender(dto.getGender());
-        }
+        try {
+            ArrayList<StudentDTO> s = studentBO.getStudentDetailsById(cmbStudentId.getValue());
+            StudentDTO studentDTO = new StudentDTO();
+            for (StudentDTO dto : s) {
+                studentDTO.setId(dto.getId());
+                studentDTO.setName(dto.getName());
+                studentDTO.setAddress(dto.getAddress());
+                studentDTO.setContactNo(dto.getContactNo());
+                studentDTO.setDob(dto.getDob());
+                studentDTO.setGender(dto.getGender());
+            }
 
-        ArrayList<RoomDTO> r = roomBO.getRoomDetailsByRoomTypeId(cmbRoomTypeId.getValue());
-        RoomDTO roomDTO = new RoomDTO();
-        for (RoomDTO dto : r) {
-            roomDTO.setRoomTypeId(dto.getRoomTypeId());
-            roomDTO.setType(dto.getType());
-            roomDTO.setKeyMoney(dto.getKeyMoney());
-            roomDTO.setRoomQty(dto.getRoomQty());
-        }
+            ArrayList<RoomDTO> r = roomBO.getRoomDetailsByRoomTypeId(cmbRoomTypeId.getValue());
+            RoomDTO roomDTO = new RoomDTO();
+            for (RoomDTO dto : r) {
+                roomDTO.setRoomTypeId(dto.getRoomTypeId());
+                roomDTO.setType(dto.getType());
+                roomDTO.setKeyMoney(dto.getKeyMoney());
+                roomDTO.setRoomQty(dto.getRoomQty());
+            }
 
-        String s1 = reservationBO.generateResId();
-        boolean b = reservationBO.bookTheRoom(new ReservationDTO(
-                s1, LocalDate.now(), txtStatus.getText(), studentDTO, roomDTO
-        ));
-        if (b) {
-            roomBO.updateRoomQty(cmbRoomTypeId.getValue());
-            clearForm();
-            new Alert(Alert.AlertType.CONFIRMATION, "Room Reservation Successful.").show();
+            String s1 = reservationBO.generateResId();
+            boolean b = reservationBO.bookTheRoom(new ReservationDTO(
+                    s1, LocalDate.now(), txtStatus.getText(), studentDTO, roomDTO
+            ));
+            if (b) {
+                roomBO.updateRoomQty(cmbRoomTypeId.getValue());
+                clearForm();
+                new Alert(Alert.AlertType.CONFIRMATION, "Room Reservation Successful.").show();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

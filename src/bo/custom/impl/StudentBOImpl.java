@@ -1,11 +1,13 @@
 package bo.custom.impl;
 
+import bo.BOFactory;
 import bo.custom.StudentBO;
 import dao.custom.StudentDAO;
 import dao.custom.impl.StudentDAOImpl;
 import dto.StudentDTO;
 import entity.Student;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,16 +17,16 @@ import java.util.List;
  **/
 
 public class StudentBOImpl implements StudentBO {
-    StudentDAO studentDAO = new StudentDAOImpl();
+    StudentDAO studentDAO = (StudentDAO) BOFactory.getBoFactory().getBOTypes(BOFactory.BOTypes.STUDENT);
 
     @Override
-    public boolean saveStudent(StudentDTO dto) {
+    public boolean saveStudent(StudentDTO dto) throws IOException {
         return studentDAO.save(new Student(dto.getId(), dto.getName(), dto.getAddress(), dto.getContactNo(),
                 dto.getDob(), dto.getGender()));
     }
 
     @Override
-    public ArrayList<StudentDTO> getAllStudents() {
+    public ArrayList<StudentDTO> getAllStudents() throws IOException {
         ArrayList<Student> all = studentDAO.getAll();
         ArrayList<StudentDTO> allStudents = new ArrayList<>();
         for (Student student : all) {
@@ -37,18 +39,18 @@ public class StudentBOImpl implements StudentBO {
     }
 
     @Override
-    public boolean deleteStudent(String id) {
+    public boolean deleteStudent(String id) throws IOException {
         return studentDAO.delete(id);
     }
 
     @Override
-    public boolean updateStudent(StudentDTO dto) {
+    public boolean updateStudent(StudentDTO dto) throws IOException {
         return studentDAO.update(new Student(dto.getId(), dto.getName(), dto.getAddress(), dto.getContactNo(),
                 dto.getDob(), dto.getGender()));
     }
 
     @Override
-    public ArrayList<StudentDTO> getStudentDetailsById(String id) {
+    public ArrayList<StudentDTO> getStudentDetailsById(String id) throws IOException {
         ArrayList<Student> student = studentDAO.getStudent(id);
         ArrayList<StudentDTO> studentDTOS = new ArrayList<>();
         for (Student s : student) {

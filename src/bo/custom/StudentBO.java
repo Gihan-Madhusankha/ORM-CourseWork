@@ -1,24 +1,24 @@
 package bo.custom;
 
+import dao.SuperDAO;
 import dto.StudentDTO;
-import entity.Student;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author : Gihan Madhusankha
  * 2022-06-25 7:53 PM
  **/
 
-public interface StudentBO {
-    boolean saveStudent(StudentDTO dto);
+public interface StudentBO extends SuperDAO {
+    boolean saveStudent(StudentDTO dto) throws IOException;
 
-    ArrayList<StudentDTO> getAllStudents();
+    ArrayList<StudentDTO> getAllStudents() throws IOException;
 
-    boolean deleteStudent(String id);
+    boolean deleteStudent(String id) throws IOException;
 
-    boolean updateStudent(StudentDTO dto);
+    boolean updateStudent(StudentDTO dto) throws IOException;
 
-    ArrayList<StudentDTO> getStudentDetailsById(String id);
+    ArrayList<StudentDTO> getStudentDetailsById(String id) throws IOException;
 }

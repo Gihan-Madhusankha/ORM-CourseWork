@@ -79,18 +79,24 @@ public class RegistrationFromController {
         }
 
         /*save student*/
-        boolean saveStudent = studentBO.saveStudent(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(),
-                txtContactNo.getText(), txtDob.getValue(), cmbGender.getValue()));
+        boolean saveStudent = false;
+        try {
+            saveStudent = studentBO.saveStudent(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(),
+                    txtContactNo.getText(), txtDob.getValue(), cmbGender.getValue()));
+            if (saveStudent) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Registration successfully.").show();
+                btnManage.setDisable(false);
+                btnBookTheRoom.setDisable(false);
+                clearForm();
 
-        if (saveStudent) {
-            new Alert(Alert.AlertType.CONFIRMATION, "Registration successfully.").show();
-            btnManage.setDisable(false);
-            btnBookTheRoom.setDisable(false);
-            clearForm();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Something went wrong..!!").show();
+            }
 
-        } else {
-            new Alert(Alert.AlertType.ERROR, "Something went wrong..!!").show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
 
     }
 

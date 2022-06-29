@@ -1,11 +1,13 @@
 package bo.custom.impl;
 
+import bo.BOFactory;
 import bo.custom.RoomBO;
 import dao.custom.RoomDAO;
 import dao.custom.impl.RoomDAOImpl;
 import dto.RoomDTO;
 import entity.Room;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -14,10 +16,10 @@ import java.util.ArrayList;
  **/
 
 public class RoomBOImpl implements RoomBO {
-    RoomDAO roomDAO = new RoomDAOImpl();
+    RoomDAO roomDAO = (RoomDAO) BOFactory.getBoFactory().getBOTypes(BOFactory.BOTypes.ROOM);
 
     @Override
-    public ArrayList<RoomDTO> getAllRooms() {
+    public ArrayList<RoomDTO> getAllRooms() throws IOException {
         ArrayList<Room> all = roomDAO.getAll();
         ArrayList<RoomDTO> roomDTOList = new ArrayList<>();
         for (Room room : all) {
@@ -29,22 +31,22 @@ public class RoomBOImpl implements RoomBO {
     }
 
     @Override
-    public boolean saveRoom(RoomDTO dto) {
+    public boolean saveRoom(RoomDTO dto) throws IOException {
         return roomDAO.save(new Room(dto.getRoomTypeId(), dto.getType(), dto.getKeyMoney(), dto.getRoomQty()));
     }
 
     @Override
-    public boolean updateRoom(RoomDTO dto) {
+    public boolean updateRoom(RoomDTO dto) throws IOException {
         return roomDAO.update(new Room(dto.getRoomTypeId(), dto.getType(), dto.getKeyMoney(), dto.getRoomQty()));
     }
 
     @Override
-    public boolean deleteRoom(String id) {
+    public boolean deleteRoom(String id) throws IOException {
         return roomDAO.delete(id);
     }
 
     @Override
-    public ArrayList<RoomDTO> getRoomDetailsByRoomTypeId(String roomTypeId) {
+    public ArrayList<RoomDTO> getRoomDetailsByRoomTypeId(String roomTypeId) throws IOException {
         ArrayList<Room> room = roomDAO.getRoom(roomTypeId);
         ArrayList<RoomDTO> roomDTOS = new ArrayList<>();
         for (Room r : room) {
@@ -56,12 +58,12 @@ public class RoomBOImpl implements RoomBO {
     }
 
     @Override
-    public boolean updateRoomQty(String value) {
+    public boolean updateRoomQty(String value) throws IOException {
         return roomDAO.updateQty(value);
     }
 
     @Override
-    public void updateQtyOfRoom(String roomTypeId) {
+    public void updateQtyOfRoom(String roomTypeId) throws IOException {
         roomDAO.updateQTY(roomTypeId);
     }
 

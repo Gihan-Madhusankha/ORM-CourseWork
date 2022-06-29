@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import util.FactoryConfiguration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
 public class StudentDAOImpl implements StudentDAO {
 
     @Override
-    public ArrayList<Student> getAll() {
+    public ArrayList<Student> getAll() throws IOException {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
 
@@ -37,7 +38,7 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public boolean save(Student entity) {
+    public boolean save(Student entity) throws IOException {
         Student student = new Student();
         student.setId(entity.getId());
         student.setName(entity.getName());
@@ -55,7 +56,7 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public boolean update(Student entity) {
+    public boolean update(Student entity) throws IOException {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
 
@@ -75,7 +76,7 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public boolean delete(String s) {
+    public boolean delete(String s) throws IOException {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
         Student del = session.load(Student.class, s);
@@ -101,7 +102,7 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public ArrayList<Student> getStudent(String id) {
+    public ArrayList<Student> getStudent(String id) throws IOException {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
 

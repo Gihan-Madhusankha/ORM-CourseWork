@@ -7,6 +7,8 @@ import dto.RoomDTO;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -33,6 +35,7 @@ import java.util.regex.Pattern;
 
 public class ManageRoomFormController {
     private final RoomBO roomBO = new RoomBOImpl();
+    private final LinkedHashMap<TextField, Pattern> map = new LinkedHashMap<>();
     public AnchorPane roomContext;
     public TextField txtRoomTypeId;
     public TextField txtRoomType;
@@ -47,7 +50,6 @@ public class ManageRoomFormController {
     public JFXButton btnAddNew;
     public TextField searchTextField;
     private ObservableList<RoomDTO> obList = null;
-    private final LinkedHashMap<TextField, Pattern> map = new LinkedHashMap<>();
     private RoomDTO roomDTO = null;
 
     public void initialize() {
@@ -92,8 +94,33 @@ public class ManageRoomFormController {
         map.put(txtRoomQty, roomQtyPattern);
     }
 
+    private void filteredList() {
+        FilteredList<RoomDTO> filteredList = new FilteredList<>(obList, b -> true);
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+
+            filteredList.setPredicate(searchModel -> {
+
+                if (newValue.isEmpty() || newValue == null) {
+                    return true;
+                }
+
+                String searchKeyword = newValue.toLowerCase();
+                if (searchModel.getRoomTypeId().toLowerCase().indexOf(searchKeyword) > -1) {
+                    return true;
+                }
+                return (searchModel.getType().toLowerCase().indexOf(searchKeyword) > -1);
+            });
+        });
+
+        SortedList<RoomDTO> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(tblManageRoom.comparatorProperty());
+        tblManageRoom.setItems(sortedList);
+
+    }
+
     private void deleteStudent(ImageView delete) {
         delete.setOnMouseClicked(event -> {
+            filteredList();
             roomDTO = tblManageRoom.getSelectionModel().getSelectedItem();
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are You Sure ?",
@@ -101,17 +128,23 @@ public class ManageRoomFormController {
             Optional<ButtonType> buttonType = alert.showAndWait();
 
             if (buttonType.get().equals(ButtonType.YES)) {
-                roomBO.deleteRoom(roomDTO.getRoomTypeId());
-                clearForm();
-                obList.clear();
-                loadAllRoomList();
-                new Alert(Alert.AlertType.CONFIRMATION, "Deleted...").show();
+                try {
+                    roomBO.deleteRoom(roomDTO.getRoomTypeId());
+                    clearForm();
+                    obList.clear();
+                    loadAllRoomList();
+                    new Alert(Alert.AlertType.CONFIRMATION, "Deleted...").show();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
     private void clickedEditBtn(ImageView edit) {
         edit.setOnMouseClicked(event -> {
+            filteredList();
             roomDTO = tblManageRoom.getSelectionModel().getSelectedItem();
             txtRoomTypeId.setText(roomDTO.getRoomTypeId());
             txtRoomType.setText(roomDTO.getType());
@@ -124,9 +157,16 @@ public class ManageRoomFormController {
     }
 
     private void loadAllRoomList() {
-        ArrayList<RoomDTO> allRooms = roomBO.getAllRooms();
-        obList = FXCollections.observableArrayList(allRooms);
-        tblManageRoom.setItems(obList);
+        ArrayList<RoomDTO> allRooms = null;
+        try {
+            allRooms = roomBO.getAllRooms();
+            obList = FXCollections.observableArrayList(allRooms);
+            tblManageRoom.setItems(obList);
+            filteredList();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void backBtnOnAction(ActionEvent actionEvent) throws IOException {
@@ -137,36 +177,42 @@ public class ManageRoomFormController {
 
     public void addBtnOnAction(ActionEvent actionEvent) {
         /*save room*/
-        if (btnAddNew.getText().equals("ADD")) {
-            boolean b = roomBO.saveRoom(new RoomDTO(
-                    txtRoomTypeId.getText(), txtRoomType.getText(), Double.parseDouble(txtKeyMoney.getText()), Integer.parseInt(txtRoomQty.getText())
-            ));
+        try {
 
-            if (b) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Added").show();
-                clearForm();
-                obList.clear();
-                ValidateUtil.setBorders(txtRoomTypeId, txtRoomType, txtKeyMoney, txtRoomQty);
-                loadAllRoomList();
-            }
+            if (btnAddNew.getText().equals("ADD")) {
+                boolean b = roomBO.saveRoom(new RoomDTO(
+                        txtRoomTypeId.getText(), txtRoomType.getText(), Double.parseDouble(txtKeyMoney.getText()), Integer.parseInt(txtRoomQty.getText())
+                ));
 
-            /*update room*/
-        } else {
-            boolean b = roomBO.updateRoom(new RoomDTO(
-                    txtRoomTypeId.getText(), txtRoomType.getText(), Double.parseDouble(txtKeyMoney.getText()), Integer.parseInt(txtRoomQty.getText())
-            ));
+                if (b) {
+                    new Alert(Alert.AlertType.CONFIRMATION, "Added").show();
+                    clearForm();
+                    obList.clear();
+                    ValidateUtil.setBorders(txtRoomTypeId, txtRoomType, txtKeyMoney, txtRoomQty);
+                    loadAllRoomList();
+                }
 
-            if (b) {
-                clearForm();
-                obList.clear();
-                loadAllRoomList();
-                ValidateUtil.setBorders(txtRoomTypeId, txtRoomType, txtKeyMoney, txtRoomQty);
-                new Alert(Alert.AlertType.CONFIRMATION, "Updated").show();
+                /*update room*/
             } else {
-                new Alert(Alert.AlertType.ERROR, "Something went wrong...!").show();
+                boolean b = roomBO.updateRoom(new RoomDTO(
+                        txtRoomTypeId.getText(), txtRoomType.getText(), Double.parseDouble(txtKeyMoney.getText()), Integer.parseInt(txtRoomQty.getText())
+                ));
+
+                if (b) {
+                    clearForm();
+                    obList.clear();
+                    loadAllRoomList();
+                    ValidateUtil.setBorders(txtRoomTypeId, txtRoomType, txtKeyMoney, txtRoomQty);
+                    new Alert(Alert.AlertType.CONFIRMATION, "Updated").show();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Something went wrong...!").show();
+                }
+
+
             }
 
-
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

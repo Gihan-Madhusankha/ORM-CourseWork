@@ -1,12 +1,6 @@
 package dao.custom.impl;
 
 import dao.custom.QueryDAO;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
-import util.FactoryConfiguration;
-
-import java.util.List;
 
 /**
  * @author : Gihan Madhusankha
@@ -14,7 +8,7 @@ import java.util.List;
  **/
 
 public class QueryDAOImpl implements QueryDAO {
-    @Override
+    /*@Override
     public String generateRoomNo(String typeId, String type) {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
@@ -67,5 +61,5 @@ public class QueryDAOImpl implements QueryDAO {
             }
         }
 
-    }
+    }*/
 }

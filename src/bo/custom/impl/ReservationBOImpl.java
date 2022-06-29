@@ -1,5 +1,6 @@
 package bo.custom.impl;
 
+import bo.BOFactory;
 import bo.custom.ReservationBO;
 import dao.custom.QueryDAO;
 import dao.custom.ReservationDAO;
@@ -16,6 +17,7 @@ import org.hibernate.Transaction;
 import util.FactoryConfiguration;
 import view.tm.ReservationListTM;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -24,17 +26,17 @@ import java.util.ArrayList;
  **/
 
 public class ReservationBOImpl implements ReservationBO {
-    QueryDAO queryDAO = new QueryDAOImpl();
-    ReservationDAO reservationDAO = new ReservationDAOImpl();
-    RoomDAO roomDAO = new RoomDAOImpl();
+    QueryDAO queryDAO = (QueryDAO) BOFactory.getBoFactory().getBOTypes(BOFactory.BOTypes.QUERY);
+    ReservationDAO reservationDAO = (ReservationDAO) BOFactory.getBoFactory().getBOTypes(BOFactory.BOTypes.RESERVATION);
+    RoomDAO roomDAO = (RoomDAO) BOFactory.getBoFactory().getBOTypes(BOFactory.BOTypes.ROOM);
 
     @Override
-    public String generateResId() {
+    public String generateResId() throws IOException {
         return reservationDAO.generateId();
     }
 
     @Override
-    public boolean bookTheRoom(ReservationDTO dto) {
+    public boolean bookTheRoom(ReservationDTO dto) throws IOException {
         Student student = new Student(dto.getStudentDTO().getId(), dto.getStudentDTO().getName(), dto.getStudentDTO().getAddress(), dto.getStudentDTO().getContactNo(),
                 dto.getStudentDTO().getDob(), dto.getStudentDTO().getGender());
         Room room = new Room(dto.getRoomDTO().getRoomTypeId(), dto.getRoomDTO().getType(), dto.getRoomDTO().getKeyMoney(), dto.getRoomDTO().getRoomQty());
@@ -45,7 +47,7 @@ public class ReservationBOImpl implements ReservationBO {
     }
 
     @Override
-    public ArrayList<ReservationListTM> getAllBookingRoomDetails() {
+    public ArrayList<ReservationListTM> getAllBookingRoomDetails() throws IOException {
         ArrayList<Reservation> all = reservationDAO.getAll();
         ArrayList<ReservationListTM> dtos = new ArrayList<>();
         for (Reservation res : all) {
@@ -57,7 +59,7 @@ public class ReservationBOImpl implements ReservationBO {
     }
 
     @Override
-    public boolean deleteReservationByResID(String resId) {
+    public boolean deleteReservationByResID(String resId) throws IOException {
         return reservationDAO.delete(resId);
     }
 

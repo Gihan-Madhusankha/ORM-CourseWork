@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.FactoryConfiguration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class ReservationDAOImpl implements ReservationDAO {
     @Override
-    public ArrayList<Reservation> getAll() {
+    public ArrayList<Reservation> getAll() throws IOException {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
 
@@ -35,7 +36,7 @@ public class ReservationDAOImpl implements ReservationDAO {
     }
 
     @Override
-    public boolean save(Reservation entity) {
+    public boolean save(Reservation entity) throws IOException {
         Reservation r = new Reservation();
         r.setResId(entity.getResId());
         r.setDate(entity.getDate());
@@ -57,7 +58,7 @@ public class ReservationDAOImpl implements ReservationDAO {
     }
 
     @Override
-    public boolean delete(String s) {
+    public boolean delete(String s) throws IOException {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
         Reservation del = session.load(Reservation.class, s);
@@ -73,7 +74,7 @@ public class ReservationDAOImpl implements ReservationDAO {
     }
 
     @Override
-    public String generateId() {
+    public String generateId() throws IOException {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
         String hql = "FROM Reservation ORDER BY resId DESC";

@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import util.FactoryConfiguration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class RoomDAOImpl implements RoomDAO {
     @Override
-    public ArrayList<Room> getAll() {
+    public ArrayList<Room> getAll() throws IOException {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
 
@@ -36,7 +37,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public boolean save(Room entity) {
+    public boolean save(Room entity) throws IOException {
         Room room = new Room();
         room.setRoomTypeId(entity.getRoomTypeId());
         room.setType(entity.getType());
@@ -52,7 +53,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public boolean update(Room entity) {
+    public boolean update(Room entity) throws IOException {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
 
@@ -70,7 +71,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public boolean delete(String s) {
+    public boolean delete(String s) throws IOException {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
         Room del = session.load(Room.class, s);
@@ -96,7 +97,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public ArrayList<Room> getRoom(String roomTypeId) {
+    public ArrayList<Room> getRoom(String roomTypeId) throws IOException {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
 
@@ -113,7 +114,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public boolean updateQty(String value) {
+    public boolean updateQty(String value) throws IOException {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
 
@@ -130,7 +131,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public void updateQTY(String roomTypeId) {
+    public void updateQTY(String roomTypeId) throws IOException {
         Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
         Transaction transaction = session.beginTransaction();
 

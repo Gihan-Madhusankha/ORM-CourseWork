@@ -5,6 +5,7 @@ import javafx.animation.ScaleTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -47,6 +48,13 @@ public class MainFormController {
             scaleTransition.setToY(1.2);
             scaleTransition.play();
 
+            DropShadow glow = new DropShadow();
+            glow.setColor(Color.BLUEVIOLET);/*CORNFLOWERBLUE*/
+            glow.setWidth(20);
+            glow.setHeight(20);
+            glow.setRadius(20);
+            icon.setEffect(glow);
+
             switch (icon.getId()) {
                 case "imgAvailable":
                     enterScaleLabel(lblAvailable);
@@ -68,7 +76,7 @@ public class MainFormController {
     }
 
     private void enterScaleLabel(Label label) {
-        label.setTextFill(Color.rgb(255, 118, 117));
+        label.setTextFill(Color.BLUEVIOLET);
     }
 
     public void playMouseExitAnimation(MouseEvent event) {
@@ -79,6 +87,7 @@ public class MainFormController {
             scaleTransition.setToX(1);
             scaleTransition.setToY(1);
             scaleTransition.play();
+            icon.setEffect(null);
 
             ArrayList<Label> lblList = new ArrayList<>();
             lblList.add(lblAvailable);
@@ -92,7 +101,7 @@ public class MainFormController {
 
     private void exitScaleLabel(ArrayList<Label> lblList) {
         for (Label label : lblList) {
-            label.setTextFill(Color.rgb(45, 52, 54));
+            label.setTextFill(Color.BLACK);
         }
     }
 

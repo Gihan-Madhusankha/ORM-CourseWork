@@ -3,6 +3,7 @@ package dao.custom;
 import dao.CrudDAO;
 import entity.Student;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,5 +13,5 @@ import java.util.List;
  **/
 
 public interface StudentDAO extends CrudDAO<Student, String> {
-    ArrayList<Student> getStudent(String id);
+    ArrayList<Student> getStudent(String id) throws IOException;
 }

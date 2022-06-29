@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -8,17 +9,17 @@ import java.util.ArrayList;
  **/
 
 public interface CrudDAO<T, ID> extends SuperDAO {
-    ArrayList<T> getAll();
+    ArrayList<T> getAll() throws IOException;
 
-    boolean save(T entity);
+    boolean save(T entity) throws IOException;
 
-    boolean update(T entity);
+    boolean update(T entity) throws IOException;
 
-    boolean delete(ID id);
+    boolean delete(ID id) throws IOException;
 
     boolean exists(ID id);
 
-    String generateId();
+    String generateId() throws IOException;
 
     T search(ID id);
 }
