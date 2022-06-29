@@ -1,6 +1,8 @@
 package bo;
 
 import bo.custom.impl.ReservationBOImpl;
+import bo.custom.impl.RoomBOImpl;
+import bo.custom.impl.StudentBOImpl;
 import dao.SuperDAO;
 import dao.custom.impl.QueryDAOImpl;
 import dao.custom.impl.ReservationDAOImpl;
@@ -23,19 +25,17 @@ public class BOFactory {
     }
 
     public enum BOTypes{
-        STUDENT, QUERY, RESERVATION, ROOM
+        STUDENT, RESERVATION, ROOM
     }
 
-    public SuperDAO getBOTypes(BOTypes types){
+    public SuperBO getBO(BOTypes types){
         switch (types){
             case STUDENT:
-                return new StudentDAOImpl();
-            case QUERY:
-                return new QueryDAOImpl();
+                return new StudentBOImpl();
             case RESERVATION:
-                return new ReservationDAOImpl();
+                return new ReservationBOImpl();
             case ROOM:
-                return new RoomDAOImpl();
+                return new RoomBOImpl();
             default:
                 return null;
         }

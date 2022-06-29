@@ -1,5 +1,6 @@
 package controller;
 
+import bo.BOFactory;
 import bo.custom.StudentBO;
 import bo.custom.impl.StudentBOImpl;
 import com.jfoenix.controls.JFXButton;
@@ -29,14 +30,13 @@ import java.util.regex.Pattern;
 
 public class RegistrationFromController {
 
-    private final StudentBO studentBO = new StudentBOImpl();
+    private final StudentBO studentBO = (StudentBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.STUDENT);
     public AnchorPane regContext;
     public TextField txtId;
     public TextField txtName;
     public TextField txtAddress;
     public JFXComboBox<String> cmbGender;
     public TextField txtContactNo;
-    //    public TextField txtRegDate;
     public JFXButton btnReg;
     public JFXDatePicker txtDob;
     public JFXButton btnManage;

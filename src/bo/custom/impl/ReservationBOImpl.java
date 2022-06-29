@@ -2,6 +2,7 @@ package bo.custom.impl;
 
 import bo.BOFactory;
 import bo.custom.ReservationBO;
+import dao.DAOFactory;
 import dao.custom.QueryDAO;
 import dao.custom.ReservationDAO;
 import dao.custom.RoomDAO;
@@ -26,9 +27,9 @@ import java.util.ArrayList;
  **/
 
 public class ReservationBOImpl implements ReservationBO {
-    QueryDAO queryDAO = (QueryDAO) BOFactory.getBoFactory().getBOTypes(BOFactory.BOTypes.QUERY);
-    ReservationDAO reservationDAO = (ReservationDAO) BOFactory.getBoFactory().getBOTypes(BOFactory.BOTypes.RESERVATION);
-    RoomDAO roomDAO = (RoomDAO) BOFactory.getBoFactory().getBOTypes(BOFactory.BOTypes.ROOM);
+    QueryDAO queryDAO = (QueryDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.QUERY);
+    ReservationDAO reservationDAO = (ReservationDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.RESERVATION);
+    RoomDAO roomDAO = (RoomDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ROOM);
 
     @Override
     public String generateResId() throws IOException {

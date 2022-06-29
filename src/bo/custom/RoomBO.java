@@ -1,5 +1,6 @@
 package bo.custom;
 
+import bo.SuperBO;
 import dao.SuperDAO;
 import dto.RoomDTO;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  * 2022-06-25 12:04 PM
  **/
 
-public interface RoomBO extends SuperDAO {
+public interface RoomBO extends SuperBO {
     ArrayList<RoomDTO> getAllRooms() throws IOException;
 
     boolean saveRoom(RoomDTO dto) throws IOException;

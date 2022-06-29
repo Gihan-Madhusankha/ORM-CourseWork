@@ -17,7 +17,7 @@ import java.util.List;
  **/
 
 public class StudentBOImpl implements StudentBO {
-    StudentDAO studentDAO = (StudentDAO) BOFactory.getBoFactory().getBOTypes(BOFactory.BOTypes.STUDENT);
+    private final StudentDAO studentDAO = (StudentDAO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.STUDENT);
 
     @Override
     public boolean saveStudent(StudentDTO dto) throws IOException {

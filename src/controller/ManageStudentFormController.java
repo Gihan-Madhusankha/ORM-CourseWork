@@ -1,5 +1,6 @@
 package controller;
 
+import bo.BOFactory;
 import bo.custom.StudentBO;
 import bo.custom.impl.StudentBOImpl;
 import com.jfoenix.controls.JFXButton;
@@ -37,7 +38,7 @@ import java.util.regex.Pattern;
  **/
 
 public class ManageStudentFormController {
-    private final StudentBO studentBO = new StudentBOImpl();
+    private final StudentBO studentBO = (StudentBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.STUDENT);
     public AnchorPane studentContext;
     public TextField txtStudentId;
     public TextField txtName;

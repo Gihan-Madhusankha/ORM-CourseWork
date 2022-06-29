@@ -16,7 +16,7 @@ import java.util.ArrayList;
  **/
 
 public class RoomBOImpl implements RoomBO {
-    RoomDAO roomDAO = (RoomDAO) BOFactory.getBoFactory().getBOTypes(BOFactory.BOTypes.ROOM);
+    private final RoomDAO roomDAO = (RoomDAO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOM);
 
     @Override
     public ArrayList<RoomDTO> getAllRooms() throws IOException {

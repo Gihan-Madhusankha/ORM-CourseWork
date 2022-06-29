@@ -1,11 +1,9 @@
 package controller;
 
+import bo.BOFactory;
 import bo.custom.ReservationBO;
 import bo.custom.RoomBO;
 import bo.custom.StudentBO;
-import bo.custom.impl.ReservationBOImpl;
-import bo.custom.impl.RoomBOImpl;
-import bo.custom.impl.StudentBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import dto.ReservationDTO;
@@ -42,9 +40,9 @@ import java.util.Date;
  **/
 
 public class ReserveRoomFormController {
-    private final RoomBO roomBO = new RoomBOImpl();
-    private final StudentBO studentBO = new StudentBOImpl();
-    private final ReservationBO reservationBO = new ReservationBOImpl();
+    private final RoomBO roomBO = (RoomBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOM);
+    private final StudentBO studentBO = (StudentBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.STUDENT);
+    private final ReservationBO reservationBO = (ReservationBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.RESERVATION);
     public AnchorPane bookingContext;
     public JFXComboBox<String> cmbRoomTypeId;
     public JFXComboBox<String> cmbStudentId;

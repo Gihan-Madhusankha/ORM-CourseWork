@@ -1,5 +1,6 @@
 package controller;
 
+import bo.BOFactory;
 import bo.custom.RoomBO;
 import bo.custom.impl.RoomBOImpl;
 import com.jfoenix.controls.JFXButton;
@@ -34,7 +35,7 @@ import java.util.regex.Pattern;
  **/
 
 public class ManageRoomFormController {
-    private final RoomBO roomBO = new RoomBOImpl();
+    private final RoomBO roomBO = (RoomBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOM);
     private final LinkedHashMap<TextField, Pattern> map = new LinkedHashMap<>();
     public AnchorPane roomContext;
     public TextField txtRoomTypeId;

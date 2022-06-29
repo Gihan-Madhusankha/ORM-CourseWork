@@ -1,5 +1,6 @@
 package controller;
 
+import bo.BOFactory;
 import bo.custom.RoomBO;
 import bo.custom.impl.RoomBOImpl;
 import dto.RoomDTO;
@@ -33,7 +34,7 @@ public class AvailableRoomFormController {
     public TableColumn colRoomQty;
     public AnchorPane availableContext;
     public TextField searchTextField;
-    RoomBO roomBO = new RoomBOImpl();
+    private final RoomBO roomBO = (RoomBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOM);
 
     public void initialize() {
         colRoomTypeId.setCellValueFactory(new PropertyValueFactory<>("roomTypeId"));

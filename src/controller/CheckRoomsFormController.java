@@ -1,5 +1,6 @@
 package controller;
 
+import bo.BOFactory;
 import bo.custom.ReservationBO;
 import bo.custom.RoomBO;
 import bo.custom.impl.ReservationBOImpl;
@@ -31,8 +32,8 @@ import java.util.Optional;
  **/
 
 public class CheckRoomsFormController {
-    private final ReservationBO reservationBO = new ReservationBOImpl();
-    private final RoomBO roomBO = new RoomBOImpl();
+    private final ReservationBO reservationBO = (ReservationBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.RESERVATION);
+    private final RoomBO roomBO = (RoomBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOM);
 
     public AnchorPane checkTheRoomContext;
     public TableView<ReservationListTM> tblCheckTheRoom;
