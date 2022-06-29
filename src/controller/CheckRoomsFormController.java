@@ -2,12 +2,11 @@ package controller;
 
 import bo.custom.ReservationBO;
 import bo.custom.impl.ReservationBOImpl;
-import dto.ReservationDTO;
-import entity.Reservation;
-import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -41,8 +40,9 @@ public class CheckRoomsFormController {
     public TableColumn colStatus;
     public TableColumn colOperate;
     public TextField searchTextField;
+    private ObservableList<ReservationListTM> obList = null;
 
-    public void initialize(){
+    public void initialize() {
         colResID.setCellValueFactory(new PropertyValueFactory<>("resId"));
         colRegDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
@@ -54,14 +54,43 @@ public class CheckRoomsFormController {
             HBox hBox = new HBox(delete);
             delete.setFitWidth(20);
             delete.setFitHeight(20);
-            
+
             hBox.setStyle("-fx-cursor: Hand");
             hBox.setAlignment(Pos.CENTER);
             deleteReservation(delete);
             return new ReadOnlyObjectWrapper<>(hBox);
         });
-        
+
         loadReservationDetails();
+        filteredList();
+    }
+
+    private void filteredList() {
+        FilteredList<ReservationListTM> filteredList = new FilteredList<>(obList, b -> true);
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(searchModel -> {
+
+                if (newValue.isEmpty() || newValue == null) {
+                    return true;
+                }
+
+                String searchKeyword = newValue.toLowerCase();
+                if (searchModel.getResId().indexOf(searchKeyword) > -1) {
+                    return true;
+                } else if (searchModel.getStatus().indexOf(searchKeyword) > -1) {
+                    return true;
+                } else if (searchModel.getStudent().indexOf(searchKeyword) > -1) {
+                    return true;
+                }
+                return searchModel.getRoom().indexOf(searchKeyword) > -1;
+
+            });
+        });
+
+        SortedList<ReservationListTM> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(tblCheckTheRoom.comparatorProperty());
+        tblCheckTheRoom.setItems(sortedList);
+
     }
 
     private void deleteReservation(ImageView delete) {
@@ -71,8 +100,11 @@ public class CheckRoomsFormController {
                     ButtonType.YES, ButtonType.NO);
             Optional<ButtonType> buttonType = alert.showAndWait();
 
-            if (buttonType.get().equals(ButtonType.YES)){
+            if (buttonType.get().equals(ButtonType.YES)) {
                 reservationBO.deleteReservationByResID(reservationDTO.getResId());
+                obList.clear();
+                loadReservationDetails();
+                filteredList();
 
                 new Alert(Alert.AlertType.CONFIRMATION, "Deleted").show();
             } else {
@@ -84,10 +116,10 @@ public class CheckRoomsFormController {
 
     private void loadReservationDetails() {
         ArrayList<ReservationListTM> roomDetails = reservationBO.getAllBookingRoomDetails();
-        ObservableList<ReservationListTM> obList = FXCollections.observableArrayList();
+        obList = FXCollections.observableArrayList();
         for (ReservationListTM detail : roomDetails) {
             obList.add(new ReservationListTM(
-                detail.getResId(), detail.getDate(), detail.getStatus(), detail.getStudent(), detail.getRoom()
+                    detail.getResId(), detail.getDate(), detail.getStatus(), detail.getStudent(), detail.getRoom()
             ));
         }
         tblCheckTheRoom.setItems(obList);
