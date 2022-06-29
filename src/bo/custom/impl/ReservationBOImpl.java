@@ -11,6 +11,9 @@ import dto.ReservationDTO;
 import entity.Reservation;
 import entity.Room;
 import entity.Student;
+import view.tm.ReservationListTM;
+
+import java.util.ArrayList;
 
 /**
  * @author : Gihan Madhusankha
@@ -36,5 +39,22 @@ public class ReservationBOImpl implements ReservationBO {
         return reservationDAO.save(new Reservation(
                 dto.getResId(), dto.getDate(), dto.getStatus(), student, room
         ));
+    }
+
+    @Override
+    public ArrayList<ReservationListTM> getAllBookingRoomDetails() {
+        ArrayList<Reservation> all = reservationDAO.getAll();
+        ArrayList<ReservationListTM> dtos = new ArrayList<>();
+        for (Reservation res : all) {
+            dtos.add(new ReservationListTM(
+                    res.getResId(), res.getDate(), res.getStatus(), res.getStudent().getId(), res.getRoom().getRoomTypeId()
+            ));
+        }
+        return dtos;
+    }
+
+    @Override
+    public boolean deleteReservationByResID(String resId) {
+        return reservationDAO.delete(resId);
     }
 }

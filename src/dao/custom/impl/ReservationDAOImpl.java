@@ -17,7 +17,21 @@ import java.util.List;
 public class ReservationDAOImpl implements ReservationDAO {
     @Override
     public ArrayList<Reservation> getAll() {
-        return null;
+        Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
+        Transaction transaction = session.beginTransaction();
+
+        String hql = "FROM Reservation";
+        List<Reservation> list = session.createQuery(hql).list();
+        ArrayList<Reservation> arrayList = new ArrayList<>();
+        for (Reservation r : list) {
+            arrayList.add(new Reservation(
+                    r.getResId(), r.getDate(), r.getStatus(), r.getStudent(), r.getRoom()
+            ));
+        }
+
+        transaction.commit();
+        session.close();
+        return arrayList;
     }
 
     @Override
@@ -44,7 +58,13 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public boolean delete(String s) {
-        return false;
+        Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
+        Transaction transaction = session.beginTransaction();
+        Reservation del = session.load(Reservation.class, s);
+        session.delete(del);
+        transaction.commit();
+        session.close();
+        return true;
     }
 
     @Override

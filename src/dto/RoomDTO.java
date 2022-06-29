@@ -13,7 +13,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@ToString(exclude = "roomTypeId")
 public class RoomDTO {
     private String roomTypeId;
     private String type;

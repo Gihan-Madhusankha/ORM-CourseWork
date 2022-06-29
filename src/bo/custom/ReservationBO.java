@@ -1,6 +1,9 @@
 package bo.custom;
 
 import dto.ReservationDTO;
+import view.tm.ReservationListTM;
+
+import java.util.ArrayList;
 
 /**
  * @author : Gihan Madhusankha
@@ -12,4 +15,7 @@ public interface ReservationBO {
 
     boolean bookTheRoom(ReservationDTO dto);
 
+    ArrayList<ReservationListTM> getAllBookingRoomDetails();
+
+    boolean deleteReservationByResID(String resId);
 }

@@ -78,7 +78,9 @@ public class AvailableRoomFormController {
 
     }
 
-    public void checkRoomsBtnOnAction(ActionEvent actionEvent) {
-
+    public void checkRoomsBtnOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) availableContext.getScene().getWindow();
+        stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/CheckRoomsForm.fxml"))));
+        stage.centerOnScreen();
     }
 }
