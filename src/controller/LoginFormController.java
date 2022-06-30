@@ -1,5 +1,7 @@
 package controller;
 
+import bo.BOFactory;
+import bo.custom.UserBO;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -12,6 +14,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -25,14 +28,14 @@ import java.io.IOException;
 
 public class LoginFormController {
     public JFXButton btnLogin;
-    public Rectangle loginContext;
+    public AnchorPane loginContext;
     public JFXTextField txtUserName;
     public Label lblCreateAnAccount;
     public JFXPasswordField txtHidePwd;
     public JFXTextField txtShowPwd;
     public ImageView imgCloseEye;
     public ImageView imgOpenEye;
-    String password;
+    private String password;
 
     public void initialize() {
         txtShowPwd.setVisible(false);
@@ -41,7 +44,7 @@ public class LoginFormController {
         lblCreateAnAccount.setOnMouseClicked(event -> {
             Stage stage = (Stage) loginContext.getScene().getWindow();
             try {
-                stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/"))));
+                stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/SignUpForm.fxml"))));
                 stage.setTitle("Sign up");
                 stage.centerOnScreen();
             } catch (IOException e) {

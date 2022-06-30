@@ -8,6 +8,7 @@ import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.time.LocalDate;
 
 /**
  * @author : Gihan Madhusankha
@@ -20,10 +21,16 @@ import javax.persistence.Id;
 @Data
 public class User {
     @Id
-    private String userId;
+    private String userName;
 
     @Column(nullable = false)
-    private String userName;
+    private String name;
+
+    @Column(nullable = false)
+    private String address;
+
+    @Column(nullable = false)
+    private LocalDate date;
 
     @Column(nullable = false)
     private String password;

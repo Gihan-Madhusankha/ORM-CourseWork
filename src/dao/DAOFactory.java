@@ -3,10 +3,7 @@ package dao;
 import bo.SuperBO;
 import bo.custom.impl.RoomBOImpl;
 import bo.custom.impl.StudentBOImpl;
-import dao.custom.impl.QueryDAOImpl;
-import dao.custom.impl.ReservationDAOImpl;
-import dao.custom.impl.RoomDAOImpl;
-import dao.custom.impl.StudentDAOImpl;
+import dao.custom.impl.*;
 
 /**
  * @author : Gihan Madhusankha
@@ -24,7 +21,7 @@ public class DAOFactory {
     }
 
     public enum DAOTypes{
-        ROOM, QUERY, RESERVATION, STUDENT
+        ROOM, QUERY, RESERVATION, STUDENT, USER
     }
 
     public SuperDAO getDAO(DAOTypes types){
@@ -37,6 +34,8 @@ public class DAOFactory {
                 return new QueryDAOImpl();
             case RESERVATION:
                 return new ReservationDAOImpl();
+            case USER:
+                return new UserDAOImpl();
             default:
                 return null;
         }

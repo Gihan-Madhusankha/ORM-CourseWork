@@ -28,4 +28,9 @@
     -fx-text-fill: CYAN;
 }
 
+.date {
+    -fx-font-size: 14px;
+}
+
+
 
