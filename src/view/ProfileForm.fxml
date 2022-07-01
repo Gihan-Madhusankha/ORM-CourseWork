@@ -32,6 +32,6 @@
       <JFXTextField fx:id="txtName" labelFloat="true" layoutX="46.0" layoutY="134.0" onKeyReleased="#textFieldKeyReleased" prefHeight="30.0" prefWidth="268.0" promptText="Name" />
       <JFXTextField fx:id="txtAddress" labelFloat="true" layoutX="46.0" layoutY="194.0" onKeyReleased="#textFieldKeyReleased" prefHeight="30.0" prefWidth="268.0" promptText="Address" />
       <JFXDatePicker fx:id="txtDob" layoutX="46.0" layoutY="254.0" prefHeight="30.0" prefWidth="303.0" promptText="DOB" />
-      <JFXTextField fx:id="txtPassword" labelFloat="true" layoutX="46.0" layoutY="314.0" prefHeight="30.0" prefWidth="268.0" promptText="Password" />
+      <JFXTextField fx:id="txtPassword" labelFloat="true" layoutX="46.0" layoutY="314.0" onKeyReleased="#textFieldKeyReleased" prefHeight="30.0" prefWidth="268.0" promptText="Password" />
    </children>
 </AnchorPane>

@@ -68,7 +68,7 @@ public class ProfileFormController {
         backtoMenu();
     }
 
-    private void backtoMenu() {
+    private void backtoMenu() throws IOException {
         Stage stage = (Stage) profileContext.getScene().getWindow();
         stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/MainForm.fxml"))));
         stage.centerOnScreen();
@@ -94,7 +94,8 @@ public class ProfileFormController {
     }
 
     public void textFieldKeyReleased(KeyEvent keyEvent) {
-        if (txtPassword.getLength() > 0) {
+        if (txtPassword.getText().length() > 0 && txtName.getText().length() > 0
+            && txtAddress.getText().length() > 0) {
             btnSaveChanges.setDisable(false);
         }
         ValidateJFXUtil.validate(map, btnSaveChanges);
