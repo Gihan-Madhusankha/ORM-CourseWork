@@ -4,6 +4,7 @@ import bo.SuperBO;
 import dto.UserDTO;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @author : Gihan Madhusankha
@@ -16,4 +17,8 @@ public interface UserBO extends SuperBO {
     boolean saveUser(UserDTO dto) throws IOException;
 
     String getPasswordByUserName(String text) throws IOException;
+
+    ArrayList<UserDTO> getDetailsByUserName(String user_name) throws IOException;
+
+    boolean updateUserInfo(UserDTO dto) throws IOException;
 }

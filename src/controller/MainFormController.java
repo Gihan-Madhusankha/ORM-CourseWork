@@ -34,10 +34,22 @@ public class MainFormController {
     public Label lblManageStudents;
     public Label lblMangeRooms;
     public Label lblBooking;
+    public ImageView imgPowerBtn;
 
     public void initialize() {
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(2000), mainContext);
         fadeTransition.play();
+
+        imgPowerBtn.setOnMouseClicked(event -> {
+            try {
+                Stage stage = (Stage) mainContext.getScene().getWindow();
+                stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/LoginForm.fxml"))));
+                stage.centerOnScreen();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void playMouseEnterAnimation(MouseEvent event) {
@@ -114,18 +126,27 @@ public class MainFormController {
             switch (icon.getId()) {
                 case "imgAvailable":
                     stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/AvailableRoomForm.fxml"))));
+                    stage.setTitle("Available");
                     break;
                 case "imgRegistration":
                     stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/RegistrationFrom.fxml"))));
+                    stage.setTitle("Registration");
                     break;
                 case "imgManageStudents":
                     stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/ManageStudentForm.fxml"))));
+                    stage.setTitle("Manage Students");
                     break;
                 case "imgManageRooms":
                     stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/ManageRoomForm.fxml"))));
+                    stage.setTitle("Manage Rooms");
                     break;
                 case "imgBooking":
                     stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/ReserveRoomForm.fxml"))));
+                    stage.setTitle("Book the Room");
+                    break;
+                case "imgSetting":
+                    stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/ProfileForm.fxml"))));
+                    stage.setTitle("Setting");
                     break;
                 default:
                     System.out.println("Default");

@@ -41,7 +41,19 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean update(User entity) throws IOException {
-        return false;
+        Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
+        Transaction transaction = session.beginTransaction();
+        String hql = "UPDATE User SET name = :u_name, address = :u_address, date = :u_date, password =:u_password WHERE userName =:u_userName";
+        Query query = session.createQuery(hql);
+        query.setParameter("u_name", entity.getName());
+        query.setParameter("u_address", entity.getAddress());
+        query.setParameter("u_date", entity.getDate());
+        query.setParameter("u_password", entity.getPassword());
+        query.setParameter("u_userName", entity.getUserName());
+        boolean b = query.executeUpdate() > 0;
+        transaction.commit();
+        session.close();
+        return b;
     }
 
     @Override
@@ -100,5 +112,22 @@ public class UserDAOImpl implements UserDAO {
         transaction.commit();
         session.close();
         return pwd;
+    }
+
+    @Override
+    public ArrayList<User> getDetails(String user_name) throws IOException {
+        Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
+        Transaction transaction = session.beginTransaction();
+        String hql = "FROM User WHERE userName = :user_name";
+        Query query = session.createQuery(hql);
+        query.setParameter("user_name", user_name);
+        List<User> list = query.list();
+        ArrayList<User> arrayList = new ArrayList<>();
+        arrayList.add(new User(
+                list.get(0).getUserName(), list.get(0).getName(), list.get(0).getAddress(), list.get(0).getDate(), list.get(0).getPassword()
+        ));
+        transaction.commit();
+        session.close();
+        return arrayList;
     }
 }

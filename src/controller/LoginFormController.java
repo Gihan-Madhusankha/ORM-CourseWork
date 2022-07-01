@@ -36,6 +36,7 @@ public class LoginFormController {
     public ImageView imgCloseEye;
     public ImageView imgOpenEye;
     private String password;
+    public static String user_name = null;
 
     public void initialize() {
         txtShowPwd.setVisible(false);
@@ -65,6 +66,7 @@ public class LoginFormController {
 
     public void loginBtnOnAction(ActionEvent actionEvent) {
         try {
+            user_name = txtUserName.getText();
             String password = null;
             password = userBO.getPasswordByUserName(txtUserName.getText());
             if (txtHidePwd.getText().equals(password)) {
@@ -72,6 +74,7 @@ public class LoginFormController {
                 stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/MainForm.fxml"))));
                 stage.setTitle("Dashboard");
                 stage.centerOnScreen();
+                new NotificationUtil().showNotification("confirm", "CONFIRMATION", "login successful.");
 
             } else {
                 new NotificationUtil().showNotification("error", "ERROR", "username or password is incorrect..!");

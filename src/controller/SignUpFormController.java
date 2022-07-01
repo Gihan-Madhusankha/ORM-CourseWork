@@ -69,6 +69,8 @@ public class SignUpFormController {
             try {
                 stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/LoginForm.fxml"))));
                 stage.centerOnScreen();
+                stage.setTitle("Login");
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
