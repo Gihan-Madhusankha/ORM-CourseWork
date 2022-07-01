@@ -2,6 +2,7 @@ package bo.custom.impl;
 
 import bo.BOFactory;
 import bo.custom.StudentBO;
+import dao.DAOFactory;
 import dao.custom.StudentDAO;
 import dao.custom.impl.StudentDAOImpl;
 import dto.StudentDTO;
@@ -17,7 +18,7 @@ import java.util.List;
  **/
 
 public class StudentBOImpl implements StudentBO {
-    private final StudentDAO studentDAO = (StudentDAO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.STUDENT);
+    private final StudentDAO studentDAO = (StudentDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.STUDENT);
 
     @Override
     public boolean saveStudent(StudentDTO dto) throws IOException {

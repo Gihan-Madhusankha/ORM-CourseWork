@@ -14,4 +14,6 @@ public interface UserBO extends SuperBO {
     String generateUserId() throws IOException;
 
     boolean saveUser(UserDTO dto) throws IOException;
+
+    String getPasswordByUserName(String text) throws IOException;
 }

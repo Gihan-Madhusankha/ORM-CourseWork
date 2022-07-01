@@ -27,6 +27,7 @@ public class MainFormController {
     public ImageView imgManageStudents;
     public ImageView imgManageRooms;
     public ImageView imgBooking;
+    public ImageView imgSetting;
     public AnchorPane mainContext;
     public Label lblAvailable;
     public Label lblRegistration;

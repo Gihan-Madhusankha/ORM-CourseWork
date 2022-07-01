@@ -10,18 +10,15 @@ import dto.UserDTO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import org.controlsfx.control.Notifications;
+import util.NotificationUtil;
 import util.ValidateJFXUtil;
 
 import java.io.IOException;
@@ -124,10 +121,10 @@ public class SignUpFormController {
                     Stage stage = (Stage) signUpContext.getScene().getWindow();
                     stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/MainForm.fxml"))));
                     stage.centerOnScreen();
+                    new NotificationUtil().showNotification("confirm", "CONFIRMATION", "Account created successfully");
 
-                    new Alert(Alert.AlertType.CONFIRMATION, "Account created successfully").show();
                 } else {
-                    new Alert(Alert.AlertType.ERROR, "something else...!").show();
+                    new NotificationUtil().showNotification("error", "ERROR", "something else...!");
                 }
 
             } catch (IOException e) {
@@ -135,7 +132,7 @@ public class SignUpFormController {
             }
 
         } else {
-            new Alert(Alert.AlertType.WARNING, "Not complete...!").show();
+            new NotificationUtil().showNotification("error", "ERROR", "Not complete...!");
         }
     }
 

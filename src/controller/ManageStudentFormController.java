@@ -2,10 +2,8 @@ package controller;
 
 import bo.BOFactory;
 import bo.custom.StudentBO;
-import bo.custom.impl.StudentBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextField;
 import dto.StudentDTO;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -23,6 +21,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import util.NotificationUtil;
 import util.ValidateUtil;
 
 import java.io.IOException;
@@ -57,7 +56,7 @@ public class ManageStudentFormController {
     public TableView<StudentDTO> tblManageStudent;
     private ObservableList<StudentDTO> obList = null;
     private StudentDTO studentDTO = null;
-    private LinkedHashMap<TextField, Pattern> map = new LinkedHashMap<>();
+    private final LinkedHashMap<TextField, Pattern> map = new LinkedHashMap<>();
 
     public void initialize() {
         colStudentId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -90,7 +89,6 @@ public class ManageStudentFormController {
 
         loadAllStudents();
         btnUpdate.setDisable(true);
-        filteredList();
 
         Pattern idPattern = Pattern.compile("^(S00-)[0-9]{3}$");
         Pattern namePattern = Pattern.compile("^[A-z ]{3,20}$");
@@ -165,7 +163,7 @@ public class ManageStudentFormController {
                     clearForm();
                     obList.clear();
                     loadAllStudents();
-                    new Alert(Alert.AlertType.CONFIRMATION, "Deleted...").show();
+                    new NotificationUtil().showNotification("confirm", "CONFIRMATION", "Deleted");
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -189,6 +187,7 @@ public class ManageStudentFormController {
             allStudents = studentBO.getAllStudents();
             obList = FXCollections.observableArrayList(allStudents);
             tblManageStudent.setItems(obList);
+            filteredList();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -212,9 +211,11 @@ public class ManageStudentFormController {
                 loadAllStudents();
                 clearForm();
                 filteredList();
-                new Alert(Alert.AlertType.CONFIRMATION, "Updated..").show();
+                new NotificationUtil().showNotification("confirm", "CONFIRMATION", "Updated");
+
             } else {
-                new Alert(Alert.AlertType.ERROR, "Something else").show();
+                new NotificationUtil().showNotification("error", "ERROR", "Something else");
+
             }
 
         } catch (IOException e) {

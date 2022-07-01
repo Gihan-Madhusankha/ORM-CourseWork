@@ -79,11 +79,11 @@ public class ReservationDAOImpl implements ReservationDAO {
         Transaction transaction = session.beginTransaction();
         String hql = "FROM Reservation ORDER BY resId DESC";
         List<Reservation> list = session.createQuery(hql).list();
-        String st = list.get(0).getResId();
-//        for (Reservation r : list) {
-//            st = r.getResId();
-//            break;
-//        }
+        String st = null;
+        for (Reservation r : list) {
+            st = r.getResId();
+            break;
+        }
         transaction.commit();
         session.close();
 

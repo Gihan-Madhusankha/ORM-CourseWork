@@ -2,7 +2,6 @@ package controller;
 
 import bo.BOFactory;
 import bo.custom.RoomBO;
-import bo.custom.impl.RoomBOImpl;
 import com.jfoenix.controls.JFXButton;
 import dto.RoomDTO;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -21,6 +20,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import util.NotificationUtil;
 import util.ValidateUtil;
 
 import java.io.IOException;
@@ -134,7 +134,7 @@ public class ManageRoomFormController {
                     clearForm();
                     obList.clear();
                     loadAllRoomList();
-                    new Alert(Alert.AlertType.CONFIRMATION, "Deleted...").show();
+                    new NotificationUtil().showNotification("confirm", "CONFIRMATION", "Deleted");
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -186,7 +186,7 @@ public class ManageRoomFormController {
                 ));
 
                 if (b) {
-                    new Alert(Alert.AlertType.CONFIRMATION, "Added").show();
+                    new NotificationUtil().showNotification("confirm", "CONFIRMATION", "Added");
                     clearForm();
                     obList.clear();
                     ValidateUtil.setBorders(txtRoomTypeId, txtRoomType, txtKeyMoney, txtRoomQty);
@@ -204,9 +204,10 @@ public class ManageRoomFormController {
                     obList.clear();
                     loadAllRoomList();
                     ValidateUtil.setBorders(txtRoomTypeId, txtRoomType, txtKeyMoney, txtRoomQty);
-                    new Alert(Alert.AlertType.CONFIRMATION, "Updated").show();
+                    new NotificationUtil().showNotification("confirm", "CONFIRMATION", "Updated");
+
                 } else {
-                    new Alert(Alert.AlertType.ERROR, "Something went wrong...!").show();
+                    new NotificationUtil().showNotification("error", "ERROR", "Something went wrong...!");
                 }
 
 

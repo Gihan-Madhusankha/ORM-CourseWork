@@ -2,7 +2,6 @@ package controller;
 
 import bo.BOFactory;
 import bo.custom.RoomBO;
-import bo.custom.impl.RoomBOImpl;
 import dto.RoomDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +26,7 @@ import java.util.ArrayList;
  **/
 
 public class AvailableRoomFormController {
+    private final RoomBO roomBO = (RoomBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOM);
     public TableView<RoomDTO> tblAvailable;
     public TableColumn colRoomTypeId;
     public TableColumn colRoomType;
@@ -34,7 +34,6 @@ public class AvailableRoomFormController {
     public TableColumn colRoomQty;
     public AnchorPane availableContext;
     public TextField searchTextField;
-    private final RoomBO roomBO = (RoomBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOM);
 
     public void initialize() {
         colRoomTypeId.setCellValueFactory(new PropertyValueFactory<>("roomTypeId"));

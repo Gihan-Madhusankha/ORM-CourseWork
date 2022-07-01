@@ -8,7 +8,6 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
@@ -16,8 +15,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import util.NotificationUtil;
 
 import java.io.IOException;
 
@@ -27,6 +26,7 @@ import java.io.IOException;
  **/
 
 public class LoginFormController {
+    private final UserBO userBO = (UserBO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.USER);
     public JFXButton btnLogin;
     public AnchorPane loginContext;
     public JFXTextField txtUserName;
@@ -63,15 +63,22 @@ public class LoginFormController {
         btnLogin.setEffect(null);
     }
 
-    public void loginBtnOnAction(ActionEvent actionEvent) throws IOException {
-        if (txtUserName.getText() != null && txtHidePwd.getText() != null) {
-            Stage stage = (Stage) loginContext.getScene().getWindow();
-            stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/MainForm.fxml"))));
-            stage.setTitle("Dashboard");
-            stage.centerOnScreen();
+    public void loginBtnOnAction(ActionEvent actionEvent) {
+        try {
+            String password = null;
+            password = userBO.getPasswordByUserName(txtUserName.getText());
+            if (txtHidePwd.getText().equals(password)) {
+                Stage stage = (Stage) loginContext.getScene().getWindow();
+                stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("../view/MainForm.fxml"))));
+                stage.setTitle("Dashboard");
+                stage.centerOnScreen();
 
-        } else {
-            new Alert(Alert.AlertType.WARNING, "Something went wrong..!").show();
+            } else {
+                new NotificationUtil().showNotification("error", "ERROR", "username or password is incorrect..!");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }

@@ -25,4 +25,9 @@ public class UserBOImpl implements UserBO {
     public boolean saveUser(UserDTO dto) throws IOException {
         return userDAO.save(new User(dto.getUserName(), dto.getName(), dto.getAddress(), dto.getDate(), dto.getPassword()));
     }
+
+    @Override
+    public String getPasswordByUserName(String text) throws IOException {
+        return userDAO.getPassword(text);
+    }
 }

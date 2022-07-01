@@ -16,7 +16,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -26,6 +25,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import util.NotificationUtil;
 import view.tm.ReservationList;
 
 import java.io.IOException;
@@ -214,7 +214,8 @@ public class ReserveRoomFormController {
             if (b) {
                 roomBO.updateRoomQty(cmbRoomTypeId.getValue());
                 clearForm();
-                new Alert(Alert.AlertType.CONFIRMATION, "Room Reservation Successful.").show();
+                new NotificationUtil().showNotification("confirm", "CONFIRMATION", "Room Reservation Successful.");
+
             }
 
         } catch (IOException e) {

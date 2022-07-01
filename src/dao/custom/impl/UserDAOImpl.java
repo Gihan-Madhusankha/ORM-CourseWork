@@ -4,6 +4,7 @@ import dao.custom.UserDAO;
 import entity.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import util.FactoryConfiguration;
 
 import java.io.IOException;
@@ -80,5 +81,24 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User search(String s) {
         return null;
+    }
+
+    @Override
+    public String getPassword(String text) throws IOException {
+        Session session = FactoryConfiguration.getFactoryConfiguration().getSession();
+        Transaction transaction = session.beginTransaction();
+
+        String hql = "FROM User";
+        String pwd = null;
+        List<User> list = session.createQuery(hql).list();
+        for (User user : list) {
+            if (user.getUserName().equals(text)) {
+                pwd = user.getPassword();
+            }
+        }
+
+        transaction.commit();
+        session.close();
+        return pwd;
     }
 }

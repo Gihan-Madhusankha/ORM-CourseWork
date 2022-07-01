@@ -2,6 +2,7 @@ package bo.custom.impl;
 
 import bo.BOFactory;
 import bo.custom.RoomBO;
+import dao.DAOFactory;
 import dao.custom.RoomDAO;
 import dao.custom.impl.RoomDAOImpl;
 import dto.RoomDTO;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  **/
 
 public class RoomBOImpl implements RoomBO {
-    private final RoomDAO roomDAO = (RoomDAO) BOFactory.getBoFactory().getBO(BOFactory.BOTypes.ROOM);
+    private final RoomDAO roomDAO = (RoomDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ROOM);
 
     @Override
     public ArrayList<RoomDTO> getAllRooms() throws IOException {

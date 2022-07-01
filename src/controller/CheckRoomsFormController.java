@@ -3,8 +3,6 @@ package controller;
 import bo.BOFactory;
 import bo.custom.ReservationBO;
 import bo.custom.RoomBO;
-import bo.custom.impl.ReservationBOImpl;
-import bo.custom.impl.RoomBOImpl;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import util.NotificationUtil;
 import view.tm.ReservationListTM;
 
 import java.io.IOException;
@@ -111,13 +110,13 @@ public class CheckRoomsFormController {
                     loadReservationDetails();
                     filteredList();
 
-                    new Alert(Alert.AlertType.CONFIRMATION, "Deleted").show();
+                    new NotificationUtil().showNotification("confirm", "CONFIRMATION", "Deleted");
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else {
-                new Alert(Alert.AlertType.ERROR, "Something went wrong..!").show();
+                new NotificationUtil().showNotification("error", "ERROR", "Something went wrong..!");
             }
 
         });

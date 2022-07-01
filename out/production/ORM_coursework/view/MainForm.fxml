@@ -69,9 +69,9 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <ImageView fitHeight="97.0" fitWidth="101.0" layoutX="425.0" layoutY="221.0" onMouseClicked="#playMouseClickedAnimation" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgSetting" fitHeight="97.0" fitWidth="101.0" layoutX="425.0" layoutY="221.0" onMouseClicked="#playMouseClickedAnimation" onMouseEntered="#playMouseEnterAnimation" onMouseExited="#playMouseExitAnimation" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@asserts/image/booking.png" />
+            <Image url="@asserts/image/settings.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -82,7 +82,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="427.0" layoutY="336.0" prefHeight="20.0" prefWidth="90.0" text="###">
+      <Label alignment="CENTER" layoutX="427.0" layoutY="336.0" prefHeight="20.0" prefWidth="90.0" text="Setting">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

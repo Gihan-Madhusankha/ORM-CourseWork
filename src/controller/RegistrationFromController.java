@@ -2,7 +2,6 @@ package controller;
 
 import bo.BOFactory;
 import bo.custom.StudentBO;
-import bo.custom.impl.StudentBOImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
@@ -12,11 +11,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import util.NotificationUtil;
 import util.ValidateUtil;
 
 import java.io.IOException;
@@ -46,7 +45,6 @@ public class RegistrationFromController {
     public void initialize() {
         loadGenderList();
         btnReg.setDisable(true);
-//        txtRegDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         txtDob.setEditable(false);
         btnManage.setDisable(true);
         btnBookTheRoom.setDisable(true);
@@ -74,7 +72,7 @@ public class RegistrationFromController {
                 && (cmbGender.getValue() != null) && (txtDob.getValue() != null);
 
         if (!b) {
-            new Alert(Alert.AlertType.WARNING, "Some values are empty..!").show();
+            new NotificationUtil().showNotification("warning", "WARNING", "Some values are empty..!");
             return;
         }
 
@@ -84,13 +82,13 @@ public class RegistrationFromController {
             saveStudent = studentBO.saveStudent(new StudentDTO(txtId.getText(), txtName.getText(), txtAddress.getText(),
                     txtContactNo.getText(), txtDob.getValue(), cmbGender.getValue()));
             if (saveStudent) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Registration successfully.").show();
+                new NotificationUtil().showNotification("confirm", "CONFIRMATION", "Registration successfully.");
                 btnManage.setDisable(false);
                 btnBookTheRoom.setDisable(false);
                 clearForm();
 
             } else {
-                new Alert(Alert.AlertType.ERROR, "Something went wrong..!!").show();
+                new NotificationUtil().showNotification("error", "ERROR", "Something went wrong..!!");
             }
 
         } catch (IOException e) {
