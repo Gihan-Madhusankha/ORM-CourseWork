@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="bookingContext" prefHeight="434.0" prefWidth="600.0" style="-fx-background-color: white;" stylesheets="@asserts/style/CustomerForm.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.ReserveRoomFormController">
+   <children>
+      <Label layoutX="23.0" layoutY="11.0" text="Booking" textFill="#170e94">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Separator layoutX="23.0" layoutY="46.0" prefHeight="0.0" prefWidth="549.0" />
+      <JFXButton buttonType="RAISED" layoutX="503.0" layoutY="11.0" onAction="#backBtnOnAction" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #4b4b4b;" text="Back" textFill="#fff6f6">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <VBox layoutX="25.0" layoutY="92.0" prefHeight="160.0" prefWidth="169.0">
+         <children>
+            <AnchorPane prefHeight="37.0" prefWidth="183.0" styleClass="textPane">
+               <children>
+                  <Label layoutX="11.0" layoutY="-9.0" styleClass="textLabel" text="Student  ID" />
+                  <JFXComboBox fx:id="cmbStudentId" layoutX="13.0" layoutY="2.0" prefHeight="30.0" prefWidth="140.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </AnchorPane>
+            <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="37.0" prefWidth="183.0" styleClass="textPane">
+               <children>
+                  <Label layoutX="11.0" layoutY="-9.0" styleClass="textLabel" text="Room Type ID" />
+                  <JFXComboBox fx:id="cmbRoomTypeId" layoutX="11.0" layoutY="2.0" prefHeight="30.0" prefWidth="140.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </AnchorPane>
+            <AnchorPane layoutX="10.0" layoutY="67.0" prefHeight="37.0" prefWidth="183.0" styleClass="textPane">
+               <children>
+                  <Label layoutX="11.0" layoutY="-9.0" styleClass="textLabel" text="Date" />
+                  <TextField fx:id="txtDate" layoutX="8.0" layoutY="4.0" prefHeight="30.0" prefWidth="152.0" styleClass="textField" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </AnchorPane>
+         </children>
+      </VBox>
+      <VBox layoutX="214.0" layoutY="92.0" prefHeight="110.0" prefWidth="169.0">
+         <children>
+            <AnchorPane prefHeight="37.0" prefWidth="183.0" styleClass="textPane">
+               <children>
+                  <TextField fx:id="txtName" layoutX="8.0" layoutY="3.0" prefHeight="30.0" prefWidth="152.0" styleClass="textField" />
+                  <Label layoutX="11.0" layoutY="-9.0" styleClass="textLabel" text="Name" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </AnchorPane>
+            <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="37.0" prefWidth="183.0" styleClass="textPane">
+               <children>
+                  <TextField fx:id="txtRoomType" layoutX="8.0" layoutY="3.0" prefHeight="30.0" prefWidth="152.0" styleClass="textField" />
+                  <Label layoutX="11.0" layoutY="-9.0" styleClass="textLabel" text="Room Type" />
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+      <VBox layoutX="214.0" layoutY="187.0" prefHeight="49.0" prefWidth="357.0">
+         <children>
+            <AnchorPane prefHeight="37.0" prefWidth="183.0" styleClass="textPane">
+               <children>
+                  <TextField fx:id="txtStatus" layoutX="5.0" layoutY="3.0" onKeyReleased="#textFieldKeyReleased" prefHeight="30.0" prefWidth="347.0" styleClass="textField" />
+                  <Label layoutX="11.0" layoutY="-9.0" styleClass="textLabel" text="Status" />
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+      <VBox layoutX="403.0" layoutY="92.0" prefHeight="87.0" prefWidth="169.0">
+         <children>
+            <AnchorPane prefHeight="37.0" prefWidth="183.0" styleClass="textPane">
+               <children>
+                  <TextField fx:id="txtAddress" layoutX="5.0" layoutY="3.0" prefHeight="30.0" prefWidth="158.0" styleClass="textField" />
+                  <Label layoutX="11.0" layoutY="-9.0" styleClass="textLabel" text="Address" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </AnchorPane>
+            <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="37.0" prefWidth="183.0" styleClass="textPane">
+               <children>
+                  <TextField fx:id="txtKeyMoney" layoutX="5.0" layoutY="3.0" prefHeight="30.0" prefWidth="152.0" styleClass="textField" />
+                  <Label layoutX="11.0" layoutY="-9.0" styleClass="textLabel" text="Key Money" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </AnchorPane>
+         </children>
+      </VBox>
+      <JFXButton fx:id="btnBook" buttonType="RAISED" layoutX="401.0" layoutY="389.0" onAction="#bookBtnOnAction" prefHeight="35.0" prefWidth="169.0" style="-fx-background-color: #1e90ff;" text="BOOK THE ROOM" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton buttonType="RAISED" layoutX="25.0" layoutY="389.0" onAction="#clearFormOnAction" prefHeight="35.0" prefWidth="169.0" style="-fx-background-color: #ff7675;" text="CLEAR FORM" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label layoutX="23.0" layoutY="47.0" prefHeight="30.0" prefWidth="549.0" style="-fx-background-color: yellow;" textFill="#0c57d0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tblReservationList" layoutX="28.0" layoutY="272.0" prefHeight="110.0" prefWidth="543.0">
+        <columns>
+          <TableColumn fx:id="colStId" prefWidth="83.0" text="st.ID" />
+            <TableColumn fx:id="colName" prefWidth="81.0" text="Name" />
+          <TableColumn fx:id="colRoomTypeId" prefWidth="93.0" text="Rm Type ID" />
+            <TableColumn fx:id="colRoomType" prefWidth="105.0" text="Rm Type" />
+            <TableColumn fx:id="colStatus" prefWidth="99.0" text="Status" />
+            <TableColumn fx:id="colOperate" prefWidth="81.0" text="Operate" />
+        </columns>
+      </TableView>
+      <JFXButton fx:id="btnAddToList" buttonType="RAISED" layoutX="496.0" layoutY="233.0" onAction="#addToListOnAction" prefHeight="30.0" prefWidth="74.0" style="-fx-background-color: #1dd1a1;" text="ADD TO">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+   </children>
+</AnchorPane>

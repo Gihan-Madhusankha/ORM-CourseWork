@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="roomContext" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" stylesheets="@asserts/style/CustomerForm.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.ManageRoomFormController">
+   <children>
+      <Label layoutX="26.0" layoutY="11.0" text="Manage Room" textFill="#170e94">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Separator layoutX="26.0" layoutY="46.0" prefHeight="0.0" prefWidth="549.0" />
+      <JFXButton buttonType="RAISED" layoutX="506.0" layoutY="11.0" onAction="#backBtnOnAction" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #4b4b4b;" text="Back" textFill="#fff6f6">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <TableView fx:id="tblManageRoom" layoutX="26.0" layoutY="206.0" prefHeight="183.0" prefWidth="549.0">
+        <columns>
+          <TableColumn fx:id="colRoomTypeId" prefWidth="103.0" text="Room Type ID" />
+          <TableColumn fx:id="colType" prefWidth="107.0" text="Type" />
+            <TableColumn fx:id="colKeyMoney" prefWidth="124.0" text="Key Money" />
+            <TableColumn fx:id="colRoomQty" prefWidth="103.0" text="Room Qty" />
+            <TableColumn fx:id="colOperate" prefWidth="111.0" text="Operate" />
+        </columns>
+      </TableView>
+      <JFXButton fx:id="btnAddNew" buttonType="RAISED" layoutX="417.0" layoutY="115.0" onAction="#addBtnOnAction" prefHeight="35.0" prefWidth="155.0" style="-fx-background-color: #1e90ff;" text="ADD" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <AnchorPane layoutX="25.0" layoutY="169.0" prefHeight="30.0" prefWidth="549.0" style="-fx-border-radius: 3;" styleClass="textPane" stylesheets="@asserts/style/CustomerForm.css">
+         <children>
+            <TextField fx:id="searchTextField" layoutX="4.0" layoutY="2.0" prefHeight="25.0" prefWidth="541.0" promptText="Search..." styleClass="textField" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="25.0" layoutY="60.0" prefHeight="37.0" prefWidth="156.0" styleClass="textPane">
+         <children>
+            <TextField fx:id="txtRoomTypeId" layoutX="3.0" layoutY="3.0" onKeyReleased="#textFieldKeyReleased" prefHeight="30.0" prefWidth="161.0" styleClass="textField" />
+            <Label layoutX="11.0" layoutY="-9.0" styleClass="textLabel" text="Room Type ID" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="216.0" layoutY="60.0" prefHeight="37.0" prefWidth="156.0" styleClass="textPane">
+         <children>
+            <TextField fx:id="txtRoomType" layoutX="3.0" layoutY="3.0" onKeyReleased="#textFieldKeyReleased" prefHeight="30.0" prefWidth="161.0" styleClass="textField" />
+            <Label layoutX="11.0" layoutY="-9.0" styleClass="textLabel" text="Type" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="409.0" layoutY="60.0" prefHeight="37.0" prefWidth="156.0" styleClass="textPane">
+         <children>
+            <TextField fx:id="txtKeyMoney" layoutX="3.0" layoutY="3.0" onKeyReleased="#textFieldKeyReleased" prefHeight="30.0" prefWidth="161.0" styleClass="textField" />
+            <Label layoutX="11.0" layoutY="-9.0" styleClass="textLabel" text="Key Money" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="25.0" layoutY="115.0" prefHeight="37.0" prefWidth="156.0" styleClass="textPane">
+         <children>
+            <TextField fx:id="txtRoomQty" layoutX="3.0" layoutY="3.0" onKeyReleased="#textFieldKeyReleased" prefHeight="30.0" prefWidth="161.0" styleClass="textField" />
+            <Label layoutX="11.0" layoutY="-9.0" styleClass="textLabel" text="Room Qty" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
